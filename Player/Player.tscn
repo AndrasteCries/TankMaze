@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://rrygwiwvx2cy"]
+
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_0vxn2"]
+[ext_resource type="Texture2D" uid="uid://c0xcp3ab2mjjg" path="res://Player/tankBase copy.png" id="1_f5l5l"]
+[ext_resource type="PackedScene" uid="uid://0efck08c76ca" path="res://bullet/Bullet.tscn" id="2_jbpbe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_grpgv"]
+size = Vector2(84, 85)
+
+[node name="PLayer" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_0vxn2")
+Bullet = ExtResource("2_jbpbe")
+
+[node name="TankBaseCopy" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("1_f5l5l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_grpgv")
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(0, -55)
+rotation = 3.14159

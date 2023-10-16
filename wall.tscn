@@ -1,0 +1,69 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfh3tubq6nxrj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_es1ew"]
+size = Vector2(80, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f34f2"]
+size = Vector2(10, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4gdfx"]
+size = Vector2(10, 10)
+
+[node name="Area2D" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(50, 95)
+shape = SubResource("RectangleShape2D_es1ew")
+metadata/_edit_group_ = true
+
+[node name="BottomWall" type="ColorRect" parent="CollisionShape2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -5.0
+offset_right = 50.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.776471, 0.776471, 0.776471, 1)
+
+[node name="RightWallShape" type="CollisionShape2D" parent="."]
+position = Vector2(5, 40)
+shape = SubResource("RectangleShape2D_f34f2")
+metadata/_edit_group_ = true
+
+[node name="RightWall" type="ColorRect" parent="RightWallShape"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -40.0
+offset_right = 5.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.776471, 0.776471, 0.776471, 1)
+
+[node name="CollumnShape" type="CollisionShape2D" parent="."]
+position = Vector2(5, 95)
+shape = SubResource("RectangleShape2D_4gdfx")
+metadata/_edit_group_ = true
+
+[node name="Collumn" type="ColorRect" parent="CollumnShape"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.776471, 0.776471, 0.776471, 1)

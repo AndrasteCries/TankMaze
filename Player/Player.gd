@@ -1,33 +1,35 @@
-extends RigidBody2D
+extends CharacterBody2D
 
-@export var speed = 5
-@export var rotation_speed = 3
+@export var speed = 500
+@export var rotation_speed = 5
 @export var Bullet : PackedScene
 
+@onready var World = get_node("/root")
+
+var steer_angle
 var rotation_direction = 0
-var velocity = 0
 
-func get_input():
-	var move_direction = Input.get_axis("Forward", "Back")
-	rotating(1)
-	if move_direction != 0:
-		rotating(-move_direction)
-	position += transform.y * move_direction * speed
-	if Input.is_action_just_released("Shoot"):
+func get_input(_delta):
+	var turn = 0
+	if Input.is_action_pressed("D"):
+		turn += 1
+	if Input.is_action_pressed("A"):
+		turn -= 1
+	rotation += rotation_speed * turn * _delta
+	velocity = Vector2()
+	if Input.is_action_pressed("W"):
+		velocity = Vector2(0, -speed).rotated(rotation)
+	if Input.is_action_pressed("S"):
+		velocity = Vector2(0, speed).rotated(rotation)
+	
+	if Input.is_action_just_released("LMB"):
 		shoot()
-
-func rotating(moving):
-	rotation_direction = 0
-	if Input.is_action_pressed("Rotate_right"):
-		rotation_direction = 1 * moving
-	if Input.is_action_pressed("Rotate_left"):
-		rotation_direction = -1 * moving
 
 func shoot():
 	var b = Bullet.instantiate()
-	owner.add_child(b)
-	b.transform = $Muzzle.global_transform
+	World.add_child(b)
+	b.start($Muzzle.global_position, rotation)
 
-func _process(delta):
-	get_input()
-	rotation += rotation_direction * rotation_speed * delta
+func _physics_process(delta):
+	move_and_slide()
+	get_input(delta)

@@ -8,9 +8,6 @@
 size = Vector2(84, 85)
 
 [node name="PLayer" type="CharacterBody2D"]
-scale = Vector2(0.5, 0.5)
-collision_layer = 2
-platform_wall_layers = 1
 script = ExtResource("1_0vxn2")
 Bullet = ExtResource("2_jbpbe")
 
@@ -25,6 +22,3 @@ shape = SubResource("RectangleShape2D_grpgv")
 [node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(0, -55)
 rotation = 3.14159
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.35, 0.35)

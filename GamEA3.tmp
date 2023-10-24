@@ -10,6 +10,7 @@
 [node name="generator" type="Node2D" parent="."]
 position = Vector2(435, 230)
 script = ExtResource("1_jqx73")
+size = Vector2i(5, 5)
 Cell_scene = ExtResource("2_pe8oi")
 
 [node name="TileMap" type="TileMap" parent="generator"]
@@ -20,5 +21,5 @@ cell_quadrant_size = 100
 format = 2
 
 [node name="PLayer" parent="." instance=ExtResource("1_jc76r")]
-position = Vector2(690, 493)
+position = Vector2(602, 354)
 motion_mode = 1

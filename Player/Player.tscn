@@ -23,8 +23,5 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_grpgv")
 
 [node name="Muzzle" type="Marker2D" parent="."]
-position = Vector2(0, -55)
+position = Vector2(0, -48)
 rotation = 3.14159
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.35, 0.35)

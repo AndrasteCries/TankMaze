@@ -1,9 +1,9 @@
 extends Node2D
 
-var size := Vector2i(10, 10)
+@export var size := Vector2i(10, 10)
 @export var Cell_scene : PackedScene
-@export var _seed := 1
-
+@export var _seed := 12
+@export var random_walls_count := 10
 
 var _rng = RandomNumberGenerator.new()
 var _maze = []
@@ -12,6 +12,7 @@ func _ready():
 	_rng.seed = _seed
 	_maze = create_array_maze()
 	backtracking_path()
+	remove_random_wall()
 
 func create_array_maze():
 	var maze = []
@@ -21,9 +22,11 @@ func create_array_maze():
 		maze.append([])
 		for j in range(0, size.y + 1):
 			var cell = Cell_scene.instantiate()
+			#var cell = Cell_scene.new()
 			cell.init(i, j)
 			maze[i].append(cell)
 			add_child(cell)
+			#cell.global_position = Vector2(i, j) * 100
 			
 	#destroy extra
 	for i in range(0, size.x + 1):
@@ -34,7 +37,7 @@ func create_array_maze():
 	return maze
 
 func backtracking_path():
-	var current_cell = _maze[9][9]
+	var current_cell = _maze[0][1]
 	current_cell.visited = true
 	var stack = []
 	while true:
@@ -54,9 +57,6 @@ func backtracking_path():
 		if unvisited_cells.size() > 0:
 			var chosen_cell = unvisited_cells[_rng.randi_range(0, unvisited_cells.size() - 1)]
 			remove_wall(current_cell, chosen_cell)
-			print("cell")
-			print(chosen_cell.pos.x)
-			print(chosen_cell.pos.y)
 			chosen_cell.visited = true
 			stack.append(current_cell)
 			current_cell = chosen_cell
@@ -66,9 +66,6 @@ func backtracking_path():
 			else:
 				break
 
-
-
-			
 func remove_wall(current, chosen):
 	if (current.pos.x == chosen.pos.x):
 		if (chosen.pos.y > current.pos.y):
@@ -84,8 +81,15 @@ func remove_wall(current, chosen):
 		else:
 			chosen.left_wall = false
 			chosen.destroy_left_wall()
-	
-	
-	
 
-
+func remove_random_wall():
+	var q = 0
+	while q < random_walls_count:
+		var x = _rng.randi_range(1, _maze[0].size() - 2)
+		var y = _rng.randi_range(0, _maze.size() - 2)
+		if _maze[x][y].left_wall:
+			_maze[x][y].destroy_left_wall()
+		elif _maze[x][y].bottom_wall:
+			_maze[x][y].destroy_bottom_wall()
+		else: q -= 1
+		q += 1

@@ -21,3 +21,7 @@ func destroy_left_wall():
 	
 func destroy_bottom_wall():
 	get_node("BottomWallShape").queue_free()
+	
+func destroy_collumn_wall():
+	print("cogasreogihsrtahbmistor")
+	get_node("CollumnShape").queue_free()

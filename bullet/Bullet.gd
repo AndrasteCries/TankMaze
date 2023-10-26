@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var speed = 100
+var speed = 300
 #var collision: KinematicCollision2D
 
 func start(_position, _direction):

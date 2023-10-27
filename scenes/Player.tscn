@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://rrygwiwvx2cy"]
 
-[ext_resource type="Script" path="res://Player/Player.gd" id="1_0vxn2"]
-[ext_resource type="Texture2D" uid="uid://c0xcp3ab2mjjg" path="res://Player/tankBase copy.png" id="1_f5l5l"]
-[ext_resource type="PackedScene" uid="uid://0efck08c76ca" path="res://bullet/Bullet.tscn" id="2_jbpbe"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_7ccsq"]
+[ext_resource type="PackedScene" uid="uid://0efck08c76ca" path="res://scenes/Bullet.tscn" id="2_m5f80"]
+[ext_resource type="Texture2D" uid="uid://c0xcp3ab2mjjg" path="res://Player/tankBase copy.png" id="3_ea2ie"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_grpgv"]
 size = Vector2(84, 85)
@@ -11,12 +11,12 @@ size = Vector2(84, 85)
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
 platform_wall_layers = 1
-script = ExtResource("1_0vxn2")
-Bullet = ExtResource("2_jbpbe")
+script = ExtResource("1_7ccsq")
+Bullet = ExtResource("2_m5f80")
 
 [node name="TankBaseCopy" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
-texture = ExtResource("1_f5l5l")
+texture = ExtResource("3_ea2ie")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)

@@ -25,3 +25,6 @@ func destroy_bottom_wall():
 func destroy_collumn_wall():
 	print("cogasreogihsrtahbmistor")
 	get_node("CollumnShape").queue_free()
+
+func get_spawnpoint_position():
+	return get_node("SpawnPoint").global_position

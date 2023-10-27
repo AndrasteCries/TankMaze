@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="MazeTank"
-run/main_scene="res://Game.tscn"
+run/main_scene="res://scenes/Game.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*res://scripts/Event_bus.gd"
+
+[debug]
+
+file_logging/enable_file_logging=true
 
 [display]
 

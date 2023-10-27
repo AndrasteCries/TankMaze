@@ -4,15 +4,15 @@ extends Node2D
 @export var Cell_scene : PackedScene
 @export var _seed := 12
 @export var random_walls_count := 10
+@onready var World = get_node("/root")
+
+var Player = preload("res://scenes/Player.tscn") 
 
 var _rng = RandomNumberGenerator.new()
 var _maze = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_rng.seed = _seed
-	_maze = create_array_maze()
-	backtracking_path()
-	remove_random_wall()
 
 func create_array_maze():
 	var maze = []
@@ -25,7 +25,7 @@ func create_array_maze():
 			#var cell = Cell_scene.new()
 			cell.init(i, j)
 			maze[i].append(cell)
-			add_child(cell)
+			#add_child(cell)
 			#cell.global_position = Vector2(i, j) * 100
 			
 	#destroy extra
@@ -93,3 +93,10 @@ func remove_random_wall():
 			_maze[x][y].destroy_bottom_wall()
 		else: q -= 1
 		q += 1
+
+func finish_maze():
+	_maze = create_array_maze()
+	backtracking_path()
+	remove_random_wall()
+	return _maze
+

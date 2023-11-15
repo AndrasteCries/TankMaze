@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-var speed = 300
-#var collision: KinematicCollision2D
+var speed = 200
+
 
 func start(_position, _direction):
 	rotation = _direction
@@ -14,5 +14,4 @@ func _physics_process(delta):
 		velocity = velocity.bounce(collision.get_normal())
 
 func _on_timer_timeout():
-	print("timeout")
 	queue_free()

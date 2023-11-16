@@ -3,18 +3,19 @@ extends CharacterBody2D
 @export var speed = 300
 @export var rotation_speed = 5
 @export var Bullet : PackedScene
-
-@onready var World = get_node("/root")
+@onready var World = get_node("/root/Game")
 
 var steer_angle
 var rotation_direction = 0
-
+var alive = true
 var respawn_timer = Timer.new()
+
 
 func _ready():
 	add_child(respawn_timer)
 	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
-
+	var color_id = Lobby.players.get(name.to_int())["Color"]
+	modulate = Lobby.colors[color_id]
 
 func get_input(_delta):
 	var turn = 0
@@ -36,23 +37,26 @@ func get_input(_delta):
 @rpc("any_peer","call_local")
 func shoot():
 	var b = Bullet.instantiate()
+	b.name = name + "bullet"
 	World.add_child(b)
 	b.start($Muzzle.global_position, rotation)
 
 
 func _physics_process(delta):
-	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id() and alive:
 		move_and_slide()
 		get_input(delta)
 
 
-
 func _on_area_2d_area_entered(area):
-	if area.name == "BulletArea":
+	if area.name == "BulletArea" and alive:
 		area.get_parent().queue_free()
-		self.hide()
+		hide()
+		alive = false
 		respawn_timer.wait_time = 1.5
 		respawn_timer.start()
 		await respawn_timer.timeout
-		EventBus.player_dead.emit(self.name)
+		alive = true
+		EventBus.player_dead.emit(name)
 	pass
+

@@ -12,8 +12,3 @@ position = Vector2(194, 1)
 script = ExtResource("2_3alco")
 size = Vector2i(7, 7)
 Cell_scene = ExtResource("3_gfyl4")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(576, 323)
-scale = Vector2(0.5, 0.5)
-zoom = Vector2(0.705, 0.705)

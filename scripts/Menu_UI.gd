@@ -1,12 +1,13 @@
 extends Control
 
+
 var PlayerList : ItemList
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	get_node("Menu").show()
-	get_node("Panel").hide()	
-	PlayerList = get_node("Panel/Players2/PlayersList")
+	get_node("Party").hide()
+	PlayerList = get_node("Party/Players2/PlayersList")
 
 
 func list_refresh():
@@ -25,21 +26,32 @@ func _on_main_menu_player_disconnected():
 
 func _on_main_menu_server_disconnected():
 	get_node("Menu").show()
-	get_node("Panel").hide()
+	get_node("Party").hide()
 
 
 func _on_main_menu_server_start():
 	get_node("Menu").hide()
-	get_node("Panel").show()
+	get_node("Party").show()
 
 
 func _on_start_game_pressed():
-	owner.load_game.rpc("res://scenes/Game.tscn")
+	if multiplayer.is_server():
+		owner.load_game.rpc("res://scenes/Game.tscn")
 	pass
 
 
 func _on_exit_pressed():
 	Lobby.players.clear()
 	multiplayer.multiplayer_peer = null
-	get_node("Panel").hide()
+	get_node("Party").hide()
 	get_node("Menu").show()
+
+
+func _on_join_pressed():
+	get_node("Menu").hide()
+	get_node("Party").show()
+
+
+func _on_host_pressed():
+	get_node("Menu").hide()
+	get_node("Party").show()

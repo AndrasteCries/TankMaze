@@ -10,7 +10,8 @@ var Player = preload("res://scenes/Player.tscn")
 
 var _rng = RandomNumberGenerator.new()
 var _maze = []
-# Called when the node enters the scene tree for the first time.
+
+
 func _ready():
 	_rng.seed = _seed
 
@@ -22,18 +23,17 @@ func create_array_maze():
 		maze.append([])
 		for j in range(0, size.y + 1):
 			var cell = Cell_scene.instantiate()
-			#var cell = Cell_scene.new()
 			cell.init(i, j)
 			maze[i].append(cell)
-			#add_child(cell)
-			#cell.global_position = Vector2(i, j) * 100
-			
+
 	#destroy extra
 	for i in range(0, size.x + 1):
 		maze[i][0].destroy_left_wall()
+		maze[i][0].destroy_floor()
 	for i in range(0, size.y + 1):
 		maze[maze.size() - 1][i].destroy_bottom_wall()
-	
+		maze[maze.size() - 1][i].destroy_floor()
+
 	return maze
 
 func backtracking_path():
@@ -69,24 +69,20 @@ func backtracking_path():
 func remove_wall(current, chosen):
 	if (current.pos.x == chosen.pos.x):
 		if (chosen.pos.y > current.pos.y):
-			current.bottom_wall = false
 			current.destroy_bottom_wall()
 		else:
-			chosen.bottom_wall = false
 			chosen.destroy_bottom_wall()
 	else:
 		if (current.pos.x > chosen.pos.x):
-			current.left_wall = false
 			current.destroy_left_wall()
 		else:
-			chosen.left_wall = false
 			chosen.destroy_left_wall()
 
 func remove_random_wall():
 	var q = 0
 	while q < random_walls_count:
 		var x = _rng.randi_range(1, _maze[0].size() - 2)
-		var y = _rng.randi_range(0, _maze.size() - 2)
+		var y = _rng.randi_range(1, _maze.size() - 2)
 		if _maze[x][y].left_wall:
 			_maze[x][y].destroy_left_wall()
 		elif _maze[x][y].bottom_wall:
@@ -94,9 +90,18 @@ func remove_random_wall():
 		else: q -= 1
 		q += 1
 
+
+func remove_extra_collumn():
+	for x in range(0, size.x + 1):
+		for y in range(0, size.y + 1):
+			if !_maze[x][y].left_wall and !_maze[x][y].bottom_wall:
+				if !_maze[x - 1][y].bottom_wall and !_maze[x][y + 1].left_wall:
+					_maze[x][y].destroy_collumn_wall()
+
 func finish_maze():
 	_maze = create_array_maze()
 	backtracking_path()
 	remove_random_wall()
+	remove_extra_collumn()
 	return _maze
 

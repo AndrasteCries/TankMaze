@@ -39,7 +39,7 @@ func _respawn_player(peer_id):
 	self.respawn_player.rpc(peer_id)
 
 
-@rpc("any_peer")
+@rpc("any_peer", "call_local")
 func respawn_player(peer_id):
 	var player = get_node(str(peer_id))
 	var x = randi_range(1, _maze[0].size() - 2)

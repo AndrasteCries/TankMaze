@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_7ccsq"]
 [ext_resource type="PackedScene" uid="uid://0efck08c76ca" path="res://scenes/Bullet.tscn" id="2_m5f80"]
-[ext_resource type="Texture2D" uid="uid://c0xcp3ab2mjjg" path="res://Player/tankBase copy.png" id="3_ea2ie"]
+[ext_resource type="Texture2D" uid="uid://cd6jg28gep56w" path="res://Player/tank.png" id="3_g2evq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_grpgv"]
 size = Vector2(84, 85)
@@ -26,9 +26,10 @@ Bullet = ExtResource("2_m5f80")
 
 [node name="TankBaseCopy" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
-texture = ExtResource("3_ea2ie")
+texture = ExtResource("3_g2evq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_grpgv")
 
@@ -40,6 +41,7 @@ rotation = 3.14159
 replication_config = SubResource("SceneReplicationConfig_mjjt0")
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 1)

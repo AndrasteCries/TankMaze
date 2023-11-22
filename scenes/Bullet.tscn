@@ -18,14 +18,12 @@ shape = SubResource("CircleShape2D_f5a8i")
 [node name="Bullet" type="Sprite2D" parent="."]
 texture = ExtResource("1_qcgw0")
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-autostart = true
-
 [node name="BulletArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletArea"]
 shape = SubResource("CircleShape2D_f5a8i")
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[node name="Timer_to_live" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer_to_live" to="." method="_on_timer_to_live_timeout"]

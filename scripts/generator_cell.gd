@@ -2,7 +2,6 @@ extends Node2D
 
 @export var size := Vector2i(10, 10)
 @export var Cell_scene : PackedScene
-@export var _seed := 12
 @export var random_walls_count := 10
 @onready var World = get_node("/root")
 
@@ -13,7 +12,9 @@ var _maze = []
 
 
 func _ready():
-	_rng.seed = _seed
+	_rng.seed = Lobby.lobby_settings["Seed"]
+	size = Lobby.lobby_settings["Size"]
+
 
 func create_array_maze():
 	var maze = []
@@ -24,6 +25,7 @@ func create_array_maze():
 		for j in range(0, size.y + 1):
 			var cell = Cell_scene.instantiate()
 			cell.init(i, j)
+			cell.name = str(i) + " " + str(j)
 			maze[i].append(cell)
 
 	#destroy extra
@@ -81,8 +83,8 @@ func remove_wall(current, chosen):
 func remove_random_wall():
 	var q = 0
 	while q < random_walls_count:
-		var x = _rng.randi_range(1, _maze[0].size() - 2)
-		var y = _rng.randi_range(1, _maze.size() - 2)
+		var x = _rng.randi_range(1, _maze.size() - 2)
+		var y = _rng.randi_range(1, _maze[0].size() - 2)
 		if _maze[x][y].left_wall:
 			_maze[x][y].destroy_left_wall()
 		elif _maze[x][y].bottom_wall:

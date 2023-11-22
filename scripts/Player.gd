@@ -10,12 +10,14 @@ var rotation_direction = 0
 var alive = true
 var respawn_timer = Timer.new()
 
+var bullets_count = 3
 
 func _ready():
 	add_child(respawn_timer)
 	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
 	var color_id = Lobby.players.get(name.to_int())["Color"]
 	modulate = Lobby.colors[color_id]
+
 
 func get_input(_delta):
 	var turn = 0
@@ -36,11 +38,24 @@ func get_input(_delta):
 
 @rpc("any_peer","call_local")
 func shoot():
-	var b = Bullet.instantiate()
-	b.name = name + "bullet"
-	World.add_child(b)
-	b.start($Muzzle.global_position, rotation)
-
+	if(bullets_count > 0):
+		var b = Bullet.instantiate()
+		b.name = name + " bullet №" + str(bullets_count)
+		
+		var timer_to_death = Timer.new()
+		timer_to_death.name = b.name
+		timer_to_death.wait_time = 2
+		
+		add_child(timer_to_death)
+		World.add_child(b)
+		
+		timer_to_death.start()
+		b.start($Muzzle.global_position, rotation)
+		
+		bullets_count -= 1
+		await timer_to_death.timeout
+		timer_to_death.queue_free()
+		bullets_count += 1
 
 func _physics_process(delta):
 	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id() and alive:
@@ -50,6 +65,7 @@ func _physics_process(delta):
 
 func _on_area_2d_area_entered(area):
 	if area.name == "BulletArea" and alive:
+		var killer = area.get_parent().name
 		area.get_parent().queue_free()
 		hide()
 		alive = false
@@ -57,6 +73,6 @@ func _on_area_2d_area_entered(area):
 		respawn_timer.start()
 		await respawn_timer.timeout
 		alive = true
-		EventBus.player_dead.emit(name)
+		EventBus.player_dead.emit(name, killer)
 	pass
 

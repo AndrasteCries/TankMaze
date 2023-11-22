@@ -1,6 +1,7 @@
 extends Node2D
 
 signal player_connected(peer_id, player_info)
+signal player_server_connect()
 signal player_disconnected(peer_id)
 signal server_disconnected
 signal server_start
@@ -9,7 +10,6 @@ var NicknameEdit : TextEdit
 var Ip : TextEdit
 var Port : TextEdit
 var ColorList : ItemList
-
 
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
@@ -26,8 +26,8 @@ func _ready():
 func _on_join_pressed():
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(Ip.text, Port.text.to_int())
+	print(error)
 	if error:
-		print(error)
 		return error
 	Lobby.player_info["Nickname"] = NicknameEdit.text
 	var ChColor = ColorList.get_selected_items()
@@ -58,7 +58,9 @@ func remove_multiplayer_peer():
 
 
 @rpc("any_peer", "call_local")
-func load_game(game_scene_path):
+func load_game(game_scene_path, size, seed):
+	Lobby.lobby_settings["Size"] = size
+	Lobby.lobby_settings["Seed"] = seed
 	get_tree().change_scene_to_file(game_scene_path)
 
 
@@ -84,8 +86,10 @@ func _register_player(new_player_info):
 
 func _on_connected_ok():
 	var peer_id = multiplayer.get_unique_id()
+	print("CONNECT WORK" + str(peer_id))
 	Lobby.players[peer_id] = Lobby.player_info
 	player_connected.emit(peer_id, Lobby.player_info)
+	player_server_connect.emit()
 
 
 func _on_player_disconnected(id):
@@ -95,6 +99,7 @@ func _on_player_disconnected(id):
 
 func _on_server_disconnected():
 	Lobby.players.clear()
+	print("Server offline")
 	multiplayer.multiplayer_peer = null
 	server_disconnected.emit()
 

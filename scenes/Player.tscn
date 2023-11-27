@@ -1,8 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://rrygwiwvx2cy"]
+[gd_scene load_steps=12 format=3 uid="uid://b42m1l1nqj3ca"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_7ccsq"]
 [ext_resource type="PackedScene" uid="uid://0efck08c76ca" path="res://scenes/Bullet.tscn" id="2_m5f80"]
-[ext_resource type="Texture2D" uid="uid://cd6jg28gep56w" path="res://Player/tank.png" id="3_g2evq"]
+[ext_resource type="Texture2D" uid="uid://qjptymdeyfr5" path="res://player/big_shot_tank.png" id="3_kap3v"]
+[ext_resource type="Texture2D" uid="uid://cd6jg28gep56w" path="res://player/tank.png" id="3_owc30"]
+[ext_resource type="Texture2D" uid="uid://b8y8af6mi2ome" path="res://player/laser_tower_tank.png" id="4_ggxgr"]
+[ext_resource type="Texture2D" uid="uid://cd6qsyt7742dd" path="res://player/tower_tank.png" id="4_ydq85"]
+[ext_resource type="Texture2D" uid="uid://uhrraybfos8n" path="res://player/minigun_tank.png" id="5_a67wk"]
+[ext_resource type="Texture2D" uid="uid://dc2tngbauq0m" path="res://player/rocket_tower_tank.png" id="6_nae6h"]
+[ext_resource type="Texture2D" uid="uid://cfwnqfwxbrcuj" path="res://player/shotgun_tower_tank123.png" id="7_qohpx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_grpgv"]
 size = Vector2(84, 85)
@@ -23,10 +29,20 @@ collision_layer = 2
 platform_wall_layers = 1
 script = ExtResource("1_7ccsq")
 Bullet = ExtResource("2_m5f80")
+big_shot_tower_texture = ExtResource("3_kap3v")
+laser_tower_texture = ExtResource("4_ggxgr")
+minigun_tower_texture = ExtResource("5_a67wk")
+rocket_tower_texture = ExtResource("6_nae6h")
+shotgun_tower_texture = ExtResource("7_qohpx")
 
-[node name="TankBaseCopy" type="Sprite2D" parent="."]
+[node name="Tank" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
-texture = ExtResource("3_g2evq")
+texture = ExtResource("3_owc30")
+
+[node name="Tower" type="Sprite2D" parent="."]
+position = Vector2(0, -6)
+scale = Vector2(3, 3)
+texture = ExtResource("4_ydq85")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

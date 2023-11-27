@@ -2,7 +2,14 @@ extends CharacterBody2D
 
 @export var speed = 300
 @export var rotation_speed = 5
+
 @export var Bullet : PackedScene
+@export var big_shot_tower_texture : Texture2D
+@export var laser_tower_texture : Texture2D
+@export var minigun_tower_texture : Texture2D
+@export var rocket_tower_texture : Texture2D
+@export var shotgun_tower_texture : Texture2D
+
 @onready var World = get_node("/root/Game")
 
 var steer_angle
@@ -11,6 +18,7 @@ var alive = true
 var respawn_timer = Timer.new()
 
 var bullets_count = 3
+var tower_type = "Normal"
 
 func _ready():
 	add_child(respawn_timer)
@@ -38,7 +46,7 @@ func get_input(_delta):
 
 @rpc("any_peer","call_local")
 func shoot():
-	if(bullets_count > 0):
+	if bullets_count > 0 and tower_type == "Normal":
 		var b = Bullet.instantiate()
 		b.name = name + " bullet №" + str(bullets_count)
 		
@@ -56,11 +64,38 @@ func shoot():
 		await timer_to_death.timeout
 		timer_to_death.queue_free()
 		bullets_count += 1
+	elif bullets_count > 0 and tower_type == "Big_shot":
+		pass
+	elif bullets_count > 0 and tower_type == "Laser":
+		pass
+	elif bullets_count > 0 and tower_type == "Minigun":
+		pass
+	elif bullets_count > 0 and tower_type == "Rocket":
+		pass
+	elif bullets_count > 0 and tower_type == "Shotgun":
+		pass
+
 
 func _physics_process(delta):
 	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id() and alive:
 		move_and_slide()
 		get_input(delta)
+
+
+@rpc("any_peer","call_local")
+func _change_tower():
+	match tower_type:
+			"Big_shot":
+				$Tower.texture = big_shot_tower_texture
+			"Laser":
+				$Tower.texture = laser_tower_texture
+			"Minigun":
+				$Tower.texture = minigun_tower_texture
+				bullets_count = 20
+			"Rocket":
+				$Tower.texture = rocket_tower_texture
+			"Shotgun":
+				$Tower.texture = shotgun_tower_texture
 
 
 func _on_area_2d_area_entered(area):
@@ -74,5 +109,9 @@ func _on_area_2d_area_entered(area):
 		await respawn_timer.timeout
 		alive = true
 		EventBus.player_dead.emit(name, killer)
-	pass
+	elif area.name == "BuffArea" and alive:
+		tower_type = area.get_parent().type
+		bullets_count = 1
+		_change_tower()
+		area.get_parent().queue_free()
 

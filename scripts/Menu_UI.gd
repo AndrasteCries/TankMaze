@@ -35,7 +35,7 @@ func _on_main_menu_server_start():
 
 
 func _on_start_game_pressed():
-	if multiplayer.is_server() and Lobby.players.size() >= 2:
+	if multiplayer.is_server() and Lobby.players.size() >= 1:
 		var seed = $Party/AdminPanel/Seed2.text.to_int()
 		var width = $Party/AdminPanel/Width2.text.to_int()
 		var height = $Party/AdminPanel/Height2.text.to_int()

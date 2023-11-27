@@ -15,7 +15,6 @@ var size := inner_size + 2 * perimetr_size
 
 var _rng :=  RandomNumberGenerator.new()
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	setup()
 	generate()

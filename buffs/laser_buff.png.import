@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0xcp3ab2mjjg"
-path="res://.godot/imported/tankBase copy.png-bec4b2bdf8ab932681a9c1158968d4cd.ctex"
+uid="uid://drxhne2goubne"
+path="res://.godot/imported/laser_buff.png-b521f759657dba763bb5b7e970f0f5e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/tankBase copy.png"
-dest_files=["res://.godot/imported/tankBase copy.png-bec4b2bdf8ab932681a9c1158968d4cd.ctex"]
+source_file="res://buffs/laser_buff.png"
+dest_files=["res://.godot/imported/laser_buff.png-b521f759657dba763bb5b7e970f0f5e4.ctex"]
 
 [params]
 

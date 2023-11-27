@@ -1,0 +1,29 @@
+[gd_scene load_steps=8 format=3 uid="uid://isvex8neqkhs"]
+
+[ext_resource type="Script" path="res://scripts/buff.gd" id="1_rspoq"]
+[ext_resource type="Texture2D" uid="uid://b2i8u66qetf7r" path="res://buffs/big_shot_buff.png" id="2_1vier"]
+[ext_resource type="Texture2D" uid="uid://drxhne2goubne" path="res://buffs/laser_buff.png" id="3_ktjgw"]
+[ext_resource type="Texture2D" uid="uid://bxoqc5330up2u" path="res://buffs/minigun_buff.png" id="4_emwf5"]
+[ext_resource type="Texture2D" uid="uid://b1xw0m72lf8t3" path="res://buffs/rocket_buff.png" id="5_2d6ak"]
+[ext_resource type="Texture2D" uid="uid://resj6sj8rwp6" path="res://buffs/shotgun_buff.png" id="6_32rm8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_loou3"]
+size = Vector2(33, 32)
+
+[node name="Buff" type="Node2D"]
+script = ExtResource("1_rspoq")
+big_shot_buff_texture = ExtResource("2_1vier")
+laser_buff_texture = ExtResource("3_ktjgw")
+minigun_buff_texture = ExtResource("4_emwf5")
+rocket_buff_texture = ExtResource("5_2d6ak")
+shotgun_buff_texture = ExtResource("6_32rm8")
+
+[node name="BuffArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BuffArea"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_loou3")
+
+[node name="BuffSprite" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("6_32rm8")

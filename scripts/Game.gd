@@ -2,15 +2,19 @@ extends Node2D
 
 @onready var Generator = get_node("generator")
 @onready var Player = preload("res://scenes/Player.tscn")
+@onready var Buff = preload("res://scenes/buff.tscn")
 
 signal score_refresh
 
 var _maze 
 
+var _rng :=  RandomNumberGenerator.new()
+
 func _ready(): 
+	_rng.seed = Lobby.lobby_settings["Seed"]
 	EventBus.player_dead.connect(_respawn_player)
 	multiplayer.server_disconnected.connect(_server_disconnected)
-	
+	$BuffSpawnTimer.timeout.connect(spawn_buff)
 	_maze = Generator.finish_maze()
 	spawn_maze()
 	spawn_players()
@@ -30,10 +34,9 @@ func spawn_players():
 func spawn_player(peer_id):
 	var player = Player.instantiate()
 	player.name = str(peer_id)
-	var x = randi_range(1, _maze.size() - 2)
-	var y = randi_range(1, _maze[0].size() - 2)
+	var random_x_y = random_cell()
 	add_child(player)
-	player.global_position = _maze[x][y].get_spawnpoint_position()
+	player.global_position = _maze[random_x_y.x][random_x_y.y].get_spawnpoint_position()
 	player.rotation = randf_range(0, 2 * PI)
 	score_refresh.emit()
 
@@ -45,16 +48,33 @@ func _respawn_player(peer_id, killer):
 @rpc("any_peer")
 func respawn_player(peer_id, killer):
 	var player = get_node(str(peer_id))
-	var x = randi_range(1, _maze.size() - 2)
-	var y = randi_range(1, _maze[0].size() - 2)
+	var random_x_y = random_cell()
 	if  peer_id.to_int() == killer.split(" ")[0].to_int():
 		Lobby.players.get(killer.split(" ")[0].to_int())["Score"] -= 1
 	else:
 		Lobby.players.get(killer.split(" ")[0].to_int())["Score"] += 1
-	player.global_position = _maze[x][y].get_spawnpoint_position()
+	player.global_position = _maze[random_x_y.x][random_x_y.y].get_spawnpoint_position()
 	player.show()
 	score_refresh.emit()
 
 
+@rpc("any_peer")
+func spawn_buff():
+	var buff = Buff.instantiate()
+	var x = _rng.randi_range(0, _maze.size() - 2)
+	var y = _rng.randi_range(1, _maze[0].size() - 1)
+	buff.set_type(_rng.randi_range(0, 4))
+	add_child(buff)
+	buff.global_position = _maze[x][y].get_spawnpoint_position()
+	buff.rotation = randf_range(0, 2 * PI)
+	print("BuffSpawned")
+
+
 func _server_disconnected():
 	get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")
+
+
+func random_cell():
+	var x = randi_range(0, _maze.size() - 2)
+	var y = randi_range(1, _maze[0].size() - 1)
+	return Vector2i(x, y)

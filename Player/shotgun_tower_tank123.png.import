@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0xcp3ab2mjjg"
-path="res://.godot/imported/tankBase copy.png-bec4b2bdf8ab932681a9c1158968d4cd.ctex"
+uid="uid://cfwnqfwxbrcuj"
+path="res://.godot/imported/shotgun_tower_tank123.png-fdd0ceb5ff97de6a992ee45e2133b8f8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/tankBase copy.png"
-dest_files=["res://.godot/imported/tankBase copy.png-bec4b2bdf8ab932681a9c1158968d4cd.ctex"]
+source_file="res://player/shotgun_tower_tank123.png"
+dest_files=["res://.godot/imported/shotgun_tower_tank123.png-fdd0ceb5ff97de6a992ee45e2133b8f8.ctex"]
 
 [params]
 

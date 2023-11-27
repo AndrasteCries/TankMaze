@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0xcp3ab2mjjg"
-path="res://.godot/imported/tankBase copy.png-bec4b2bdf8ab932681a9c1158968d4cd.ctex"
+uid="uid://resj6sj8rwp6"
+path="res://.godot/imported/shotgun_buff.png-4efd5dba8220b8b0a15a3ed364099a40.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/tankBase copy.png"
-dest_files=["res://.godot/imported/tankBase copy.png-bec4b2bdf8ab932681a9c1158968d4cd.ctex"]
+source_file="res://buffs/shotgun_buff.png"
+dest_files=["res://.godot/imported/shotgun_buff.png-4efd5dba8220b8b0a15a3ed364099a40.ctex"]
 
 [params]
 

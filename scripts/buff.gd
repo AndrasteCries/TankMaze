@@ -19,15 +19,14 @@ func set_type(rng_type):
 			$BuffSprite.texture = big_shot_buff_texture
 			type = "Big_shot"
 		1:
-			$BuffSprite.texture = laser_buff_texture
-			type = "Laser"
-		2:
 			$BuffSprite.texture = minigun_buff_texture
 			type = "Minigun"
+		2:
+			$BuffSprite.texture = shotgun_buff_texture
+			type = "Shotgun"
 		3:
 			$BuffSprite.texture = rocket_buff_texture
 			type = "Rocket"
 		4:
-			$BuffSprite.texture = shotgun_buff_texture
-			type = "Shotgun"
-
+			$BuffSprite.texture = laser_buff_texture
+			type = "Laser"

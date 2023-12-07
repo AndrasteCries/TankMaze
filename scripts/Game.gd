@@ -14,7 +14,7 @@ func _ready():
 	_rng.seed = Lobby.lobby_settings["Seed"]
 	EventBus.player_dead.connect(_respawn_player)
 	multiplayer.server_disconnected.connect(_server_disconnected)
-	$BuffSpawnTimer.timeout.connect(spawn_buff)
+	$BuffSpawnTimer.timeout.connect(_spawn_buff)
 	_maze = Generator.finish_maze()
 	spawn_maze()
 	spawn_players()
@@ -23,7 +23,7 @@ func _ready():
 func spawn_maze():
 	for i in range(_maze.size()):
 		for j in range(_maze[i].size()):
-			add_child(_maze[i][j])
+			$generator.add_child(_maze[i][j])
 
 
 func spawn_players():
@@ -57,17 +57,19 @@ func respawn_player(peer_id, killer):
 	player.show()
 	score_refresh.emit()
 
+func _spawn_buff():
+	var x = randi_range(0, _maze.size() - 2)
+	var y = randi_range(1, _maze[0].size() - 1)
+	spawn_buff(x, y)
 
 @rpc("any_peer")
-func spawn_buff():
+func spawn_buff(x, y):
 	var buff = Buff.instantiate()
-	var x = _rng.randi_range(0, _maze.size() - 2)
-	var y = _rng.randi_range(1, _maze[0].size() - 1)
-	buff.set_type(_rng.randi_range(0, 4))
+	buff.set_type(_rng.randi_range(0, 2))
 	add_child(buff)
+	buff.name = "Buff" + str(buff.type)
 	buff.global_position = _maze[x][y].get_spawnpoint_position()
 	buff.rotation = randf_range(0, 2 * PI)
-	print("BuffSpawned")
 
 
 func _server_disconnected():

@@ -1,25 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://0efck08c76ca"]
+[gd_scene load_steps=5 format=3 uid="uid://dcus84a0docrr"]
 
-[ext_resource type="Script" path="res://scripts/Bullet.gd" id="1_182d2"]
-[ext_resource type="Texture2D" uid="uid://ck841efwi3fii" path="res://bullet/bullet.png" id="1_qcgw0"]
+[ext_resource type="Script" path="res://scripts/Triangle.gd" id="1_gyk4h"]
+[ext_resource type="Texture2D" uid="uid://kfil4it1wgne" path="res://bullet/triangle.png" id="2_pq0tk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tta52"]
+radius = 2.82843
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f5a8i"]
-radius = 5.09902
+radius = 2.0
 
-[node name="Bullet" type="CharacterBody2D"]
+[node name="Triangle" type="CharacterBody2D"]
 collision_layer = 2
 floor_constant_speed = true
 platform_wall_layers = 1
-script = ExtResource("1_182d2")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_f5a8i")
+script = ExtResource("1_gyk4h")
 
 [node name="Bullet" type="Sprite2D" parent="."]
-texture = ExtResource("1_qcgw0")
+texture = ExtResource("2_pq0tk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.19209e-07)
+rotation = 0.785398
+shape = SubResource("CircleShape2D_tta52")
 
 [node name="BulletArea" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletArea"]
 shape = SubResource("CircleShape2D_f5a8i")

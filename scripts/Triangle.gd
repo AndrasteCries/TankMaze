@@ -16,6 +16,8 @@ func start(_position, _direction):
 func _physics_process(delta):
 	if $Timer_to_live.time_left < 0.5:
 		prcnt -= delta * 2
+	elif $Timer_to_live.time_left < 1.5:
+		velocity = velocity * 0.9
 	modulate = Color(1, 1, 1, prcnt)
 	var collision = move_and_collide(velocity * delta)
 	if collision:

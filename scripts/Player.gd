@@ -3,12 +3,12 @@ extends CharacterBody2D
 @export var speed = 300
 @export var rotation_speed = 5
 
-@export var Bullet : PackedScene
-@export var big_shot_tower_texture : Texture2D
-@export var laser_tower_texture : Texture2D
-@export var minigun_tower_texture : Texture2D
-@export var rocket_tower_texture : Texture2D
-@export var shotgun_tower_texture : Texture2D
+@export var default_tower : PackedScene
+@export var big_shot_tower : PackedScene
+@export var laser_tower : PackedScene
+@export var minigun_tower : PackedScene
+@export var rocket_tower : PackedScene
+@export var shotgun_tower : PackedScene
 
 @onready var World = get_node("/root/Game")
 
@@ -17,7 +17,7 @@ var rotation_direction = 0
 var alive = true
 var respawn_timer = Timer.new()
 
-var bullets_count = 3
+
 var tower_type = "Normal"
 
 func _ready():
@@ -41,39 +41,7 @@ func get_input(_delta):
 		velocity = Vector2(0, speed).rotated(rotation)
 	
 	if Input.is_action_just_released("LMB"):
-		self.shoot.rpc()
-
-
-@rpc("any_peer","call_local")
-func shoot():
-	if bullets_count > 0 and tower_type == "Normal":
-		var b = Bullet.instantiate()
-		b.name = name + " bullet №" + str(bullets_count)
-		
-		var timer_to_death = Timer.new()
-		timer_to_death.name = b.name
-		timer_to_death.wait_time = 2
-		
-		add_child(timer_to_death)
-		World.add_child(b)
-		
-		timer_to_death.start()
-		b.start($Muzzle.global_position, rotation)
-		
-		bullets_count -= 1
-		await timer_to_death.timeout
-		timer_to_death.queue_free()
-		bullets_count += 1
-	elif bullets_count > 0 and tower_type == "Big_shot":
-		pass
-	elif bullets_count > 0 and tower_type == "Laser":
-		pass
-	elif bullets_count > 0 and tower_type == "Minigun":
-		pass
-	elif bullets_count > 0 and tower_type == "Rocket":
-		pass
-	elif bullets_count > 0 and tower_type == "Shotgun":
-		pass
+		$Tower.shoot.rpc()
 
 
 func _physics_process(delta):
@@ -83,20 +51,25 @@ func _physics_process(delta):
 
 
 @rpc("any_peer","call_local")
-func _change_tower():
+func change_tower():
+	var new_tower
+	$Tower.queue_free()
+	remove_child($Tower)
 	match tower_type:
-			"Big_shot":
-				$Tower.texture = big_shot_tower_texture
-			"Laser":
-				$Tower.texture = laser_tower_texture
-			"Minigun":
-				$Tower.texture = minigun_tower_texture
-				bullets_count = 20
-			"Rocket":
-				$Tower.texture = rocket_tower_texture
-			"Shotgun":
-				$Tower.texture = shotgun_tower_texture
-
+		"Default":
+			new_tower = default_tower.instantiate()
+		"Big_shot":
+			new_tower = big_shot_tower.instantiate()
+		"Laser":
+			new_tower = laser_tower.instantiate()
+		"Minigun":
+			new_tower = minigun_tower.instantiate()
+		"Rocket":
+			new_tower = rocket_tower.instantiate()
+		"Shotgun":
+			new_tower = shotgun_tower.instantiate()
+	add_child(new_tower)
+	new_tower.name = "Tower"
 
 func _on_area_2d_area_entered(area):
 	if area.name == "BulletArea" and alive:
@@ -111,7 +84,6 @@ func _on_area_2d_area_entered(area):
 		EventBus.player_dead.emit(name, killer)
 	elif area.name == "BuffArea" and alive:
 		tower_type = area.get_parent().type
-		bullets_count = 1
-		_change_tower()
+		change_tower()
 		area.get_parent().queue_free()
 

@@ -1,11 +1,19 @@
 extends CharacterBody2D
 
+@export var triangles_count = 20
+@export var Triangle : PackedScene
+
+@onready var World = get_node("/root/Game")
+
 var speed = 200
 
 var prcnt = 1
-var live_time = 2.0
+var live_time = 1.0
+
+var _rng :=  RandomNumberGenerator.new()
 
 func start(_position, _direction):
+	_rng.seed = Lobby.lobby_settings["Seed"]
 	rotation = _direction
 	position = _position
 	velocity = Vector2(0, -speed).rotated(rotation)
@@ -23,8 +31,18 @@ func _physics_process(delta):
 
 
 func _on_timer_to_live_timeout():
+	boom()
 	queue_free()
 
+
+@rpc("any_peer","call_local")
+func boom():
+	for i in range(triangles_count):
+		var triangle = Triangle.instantiate()
+		triangle.name = "trinagle"
+		World.add_child(triangle)
+		
+		triangle.start(global_position, _rng.randi_range(0, 100))
 
 func _on_timer_collide_timeout():
 	$BulletArea/CollisionShape2D.disabled = false

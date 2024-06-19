@@ -1,23 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://yj5rtrys678w"]
+[gd_scene load_steps=6 format=3 uid="uid://yj5rtrys678w"]
 
-[ext_resource type="Script" path="res://scripts/Game.gd" id="1_qa8bh"]
-[ext_resource type="Script" path="res://scripts/generator_cell.gd" id="2_3alco"]
+[ext_resource type="Script" path="res://scripts/util/Game.cs" id="1_kexn6"]
+[ext_resource type="Script" path="res://scripts/maze/Maze.cs" id="2_0e787"]
+[ext_resource type="PackedScene" uid="uid://b42m1l1nqj3ca" path="res://scenes/Player.tscn" id="2_c3v1i"]
 [ext_resource type="PackedScene" uid="uid://bfh3tubq6nxrj" path="res://scenes/wall.tscn" id="3_gfyl4"]
 [ext_resource type="PackedScene" uid="uid://dgwmlabuoabns" path="res://scenes/UI.tscn" id="4_bo6yh"]
 
-[node name="Game" type="Node2D"]
-script = ExtResource("1_qa8bh")
+[node name="Game" type="Node2D" node_paths=PackedStringArray("BuffSpawnTimer")]
+script = ExtResource("1_kexn6")
+PlayerScene = ExtResource("2_c3v1i")
+BuffSpawnTimer = NodePath("BuffSpawnTimer")
 
-[node name="generator" type="Node2D" parent="."]
+[node name="Maze" type="Node2D" parent="."]
 position = Vector2(194, 1)
-script = ExtResource("2_3alco")
-size = Vector2i(7, 7)
-Cell_scene = ExtResource("3_gfyl4")
+script = ExtResource("2_0e787")
+CellScene = ExtResource("3_gfyl4")
 
 [node name="UI" parent="." instance=ExtResource("4_bo6yh")]
 
 [node name="BuffSpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
-
-[connection signal="score_refresh" from="." to="UI" method="_on_game_score_refresh"]

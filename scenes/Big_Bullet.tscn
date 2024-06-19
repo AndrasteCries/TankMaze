@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cvandy3m1s04a"]
 
 [ext_resource type="Script" path="res://scripts/Big_Bullet.gd" id="1_720j6"]
-[ext_resource type="Texture2D" uid="uid://ck841efwi3fii" path="res://bullet/bullet.png" id="2_jrpn3"]
+[ext_resource type="Texture2D" uid="uid://ck841efwi3fii" path="res://assets/bullet/bullet.png" id="2_jrpn3"]
 [ext_resource type="PackedScene" uid="uid://dcus84a0docrr" path="res://scenes/Triangle.tscn" id="2_vffn6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f5a8i"]

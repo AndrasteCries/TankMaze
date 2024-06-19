@@ -11,14 +11,16 @@ config_version=5
 [application]
 
 config/name="MazeTank"
-run/main_scene="res://scenes/MainMenu.tscn"
-config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+run/main_scene="res://scenes/Game.tscn"
+config/features=PackedStringArray("4.2", "C#", "Forward Plus")
+config/icon="res://assets/icon.svg"
 
 [autoload]
 
+GameSettings="*res://scripts/global/GameSettings.cs"
+Lobby="*res://scripts/global/Lobby.cs"
 EventBus="*res://scripts/Event_bus.gd"
-Lobby="*res://scripts/lobby.gd"
+Global="*res://scripts/global/Global.cs"
 
 [debug]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cor150l5vu4sq"]
 
-[ext_resource type="Texture2D" uid="uid://cd6qsyt7742dd" path="res://player/tower_tank.png" id="1_7w11e"]
+[ext_resource type="Texture2D" uid="uid://cd6qsyt7742dd" path="res://assets/Player/tower_tank.png" id="1_7w11e"]
 [ext_resource type="Script" path="res://scenes/towers/Tower.gd" id="1_hifnj"]
 [ext_resource type="PackedScene" uid="uid://0efck08c76ca" path="res://scenes/Bullet.tscn" id="2_567xh"]
 

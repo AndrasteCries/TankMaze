@@ -1,12 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://b42m1l1nqj3ca"]
+[gd_scene load_steps=6 format=3 uid="uid://b42m1l1nqj3ca"]
 
-[ext_resource type="Script" path="res://scripts/Player.gd" id="1_7ccsq"]
-[ext_resource type="PackedScene" uid="uid://blko8jd4hs8ea" path="res://scenes/towers/BigShotTower.tscn" id="3_4nlh2"]
-[ext_resource type="Texture2D" uid="uid://cd6jg28gep56w" path="res://player/tank.png" id="3_owc30"]
-[ext_resource type="PackedScene" uid="uid://8x51lhk06afv" path="res://scenes/towers/LaserTower.tscn" id="4_4cyeb"]
-[ext_resource type="PackedScene" uid="uid://pgng38lqdv4q" path="res://scenes/towers/MinigunTower.tscn" id="5_ljpoj"]
-[ext_resource type="PackedScene" uid="uid://dl0sqjopo1q6u" path="res://scenes/towers/RocketTower.tscn" id="6_1m6jg"]
-[ext_resource type="PackedScene" uid="uid://c14sf8otq17mw" path="res://scenes/towers/ShotgunTower.tscn" id="7_ncx66"]
+[ext_resource type="Script" path="res://scripts/Player/Tank.cs" id="1_skvy5"]
+[ext_resource type="Texture2D" uid="uid://cd6jg28gep56w" path="res://assets/Player/tank.png" id="8_alwed"]
 [ext_resource type="PackedScene" uid="uid://cor150l5vu4sq" path="res://scenes/towers/Tower.tscn" id="9_f06ui"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_grpgv"]
@@ -24,17 +19,11 @@ properties/1/replication_mode = 1
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
 platform_wall_layers = 1
-script = ExtResource("1_7ccsq")
-default_tower = ExtResource("9_f06ui")
-big_shot_tower = ExtResource("3_4nlh2")
-laser_tower = ExtResource("4_4cyeb")
-minigun_tower = ExtResource("5_ljpoj")
-rocket_tower = ExtResource("6_1m6jg")
-shotgun_tower = ExtResource("7_ncx66")
+script = ExtResource("1_skvy5")
 
 [node name="Tank" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
-texture = ExtResource("3_owc30")
+texture = ExtResource("8_alwed")
 
 [node name="Tower" parent="." instance=ExtResource("9_f06ui")]
 

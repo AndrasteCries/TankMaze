@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://pgng38lqdv4q"]
 
 [ext_resource type="Script" path="res://scenes/towers/MinigunTower.gd" id="1_3l672"]
-[ext_resource type="Texture2D" uid="uid://uhrraybfos8n" path="res://player/minigun_tank.png" id="1_ms5a8"]
+[ext_resource type="Texture2D" uid="uid://uhrraybfos8n" path="res://assets/Player/minigun_tank.png" id="1_ms5a8"]
 [ext_resource type="PackedScene" uid="uid://b7nx4110umrhy" path="res://scenes/Mini_Bullet.tscn" id="2_6siag"]
 
 [node name="Tower" type="Node2D"]

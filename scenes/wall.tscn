@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bfh3tubq6nxrj"]
 
-[ext_resource type="Script" path="res://scripts/wall.gd" id="1_728i1"]
+[ext_resource type="Script" path="res://scripts/maze/Cell.cs" id="1_miajd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_es1ew"]
 size = Vector2(89.75, 10)
@@ -13,7 +13,7 @@ size = Vector2(10, 10)
 
 [node name="Area2D" type="StaticBody2D"]
 collision_mask = 3
-script = ExtResource("1_728i1")
+script = ExtResource("1_miajd")
 
 [node name="Floor" type="ColorRect" parent="."]
 offset_left = -50.0

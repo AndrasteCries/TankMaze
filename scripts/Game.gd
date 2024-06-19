@@ -15,12 +15,16 @@ func _ready():
 	EventBus.player_dead.connect(_respawn_player)
 	multiplayer.server_disconnected.connect(_server_disconnected)
 	$BuffSpawnTimer.timeout.connect(_spawn_buff)
-	_maze = Generator.finish_maze()
+	print("maze")
+	print(Generator.asd())
+	print(Generator.GenerateMaze())
+
 	spawn_maze()
 	spawn_players()
 
 
 func spawn_maze():
+	_maze = Generator.Maze1
 	for i in range(_maze.size()):
 		for j in range(_maze[i].size()):
 			$generator.add_child(_maze[i][j])

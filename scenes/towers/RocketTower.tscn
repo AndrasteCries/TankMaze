@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dl0sqjopo1q6u"]
 
-[ext_resource type="Texture2D" uid="uid://dc2tngbauq0m" path="res://player/rocket_tower_tank.png" id="1_du0pi"]
+[ext_resource type="Texture2D" uid="uid://dc2tngbauq0m" path="res://assets/Player/rocket_tower_tank.png" id="1_du0pi"]
 [ext_resource type="Script" path="res://scenes/towers/RocketTower.gd" id="1_gxpjo"]
 [ext_resource type="PackedScene" uid="uid://0efck08c76ca" path="res://scenes/Bullet.tscn" id="2_3jhwa"]
-[ext_resource type="Texture2D" uid="uid://btetj0jrd7hte" path="res://player/withoutrocket_tower_tank.png" id="4_nsy1a"]
+[ext_resource type="Texture2D" uid="uid://btetj0jrd7hte" path="res://assets/Player/withoutrocket_tower_tank.png" id="4_nsy1a"]
 
 [node name="Tower" type="Node2D"]
 scale = Vector2(3, 3)

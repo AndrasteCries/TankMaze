@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btetj0jrd7hte"
-path="res://.godot/imported/withoutrocket_tower_tank.png-ac944cabc9169dbab27772e63bf77af6.ctex"
+path="res://.godot/imported/withoutrocket_tower_tank.png-d843f6adbce445dca087879f43c66c88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Player/withoutrocket_tower_tank.png"
-dest_files=["res://.godot/imported/withoutrocket_tower_tank.png-ac944cabc9169dbab27772e63bf77af6.ctex"]
+source_file="res://assets/player/withoutrocket_tower_tank.png"
+dest_files=["res://.godot/imported/withoutrocket_tower_tank.png-d843f6adbce445dca087879f43c66c88.ctex"]
 
 [params]
 

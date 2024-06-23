@@ -175,11 +175,10 @@ public partial class Maze : Node2D
 		RemoveExtraColumn();
 	}
 	
-	public Vector2I RandomCell()
+	public Cell GetRandomCell()
 	{
 		var x = _rng.RandiRange(0, _maze.Count - 2);
 		var y = _rng.RandiRange(1, _maze[0].Count - 1);
-		return new Vector2I(x, y);
+		return _maze[x][y];
 	}
-	
 }

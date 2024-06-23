@@ -2,13 +2,12 @@ using Godot;
 using mazetank.scripts.global;
 using mazetank.scripts.maze;
 using mazetank.scripts.player;
+using mazetank.scripts.player.buff;
 
 namespace mazetank.scripts.util;
 
 public partial class Game : Node2D
 	{
-		[Export] public PackedScene PlayerScene { get; set; }
-		[Export] public PackedScene BuffScene { get; set; }
 		[Export] public Timer BuffSpawnTimer { get; set; }
 
 		private Maze _maze;
@@ -24,10 +23,9 @@ public partial class Game : Node2D
 			SpawnMaze();
 			SpawnPlayers();
 			
-			
 			// EventBus.player_dead += _RespawnPlayer;
 			// multiplayer.server_disconnected += _ServerDisconnected;
-			// BuffSpawnTimer.Timeout += _SpawnBuff;
+			BuffSpawnTimer.Timeout += _SpawnBuff;
 		}
 
 		private void SpawnMaze()
@@ -46,28 +44,18 @@ public partial class Game : Node2D
 		{
 			foreach (Player player in Global.Lobby.Players)
 			{
-				GD.Print("Player");
-				Tank tank = (Tank)PlayerScene.Instantiate();
-				Vector2I randomXY = _maze.RandomCell();
-				AddChild(tank);
-				tank.GlobalPosition = _maze._maze[randomXY.X][randomXY.Y].GetSpawnpointPosition();
-				tank.Rotation = _rng.RandfRange(0, 2 * Mathf.Pi);
-				
-				// SpawnPlayer(player);
+				var cell = _maze.GetRandomCell();
+				cell.SpawnPlayer(_rng);
 			}
 		}
-
-		// private void SpawnPlayer(int peerId)
-		// {
-		//     var player = (Node2D)PlayerScene.Instantiate();
-		//     player.Name = peerId.ToString();
-		//     var randomXY = RandomCell();
-		//     AddChild(player);
-		//     player.GlobalPosition = _maze[randomXY.x][randomXY.y].GetSpawnPointPosition();
-		//     player.Rotation = _rng.RandfRange(0, 2 * Mathf.Pi);
-		//     EmitSignal(nameof(ScoreRefresh));
-		// }
-
+	
+		private void _SpawnBuff()
+		{
+			var cell = _maze.GetRandomCell();
+			int buffType = _rng.RandiRange(0, 1);
+			cell.SpawnBuff(buffType, _rng);
+		}
+		
 		// private void _RespawnPlayer(int peerId, string killer)
 		// {
 		//     RespawnPlayer(peerId, killer);
@@ -90,29 +78,8 @@ public partial class Game : Node2D
 		//     player.Show();
 		//     EmitSignal(nameof(ScoreRefresh));
 		// }
-
-	//     private void _SpawnBuff()
-	//     {
-	//         var x = _rng.RandiRange(0, _maze.Count - 2);
-	//         var y = _rng.RandiRange(1, _maze[0].Count - 1);
-	//         SpawnBuffRpc(x, y);
-	//     }
-	//
-	//     [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	//     private void SpawnBuffRpc(int x, int y)
-	//     {
-	//         var buff = (Node2D)BuffScene.Instantiate();
-	//         buff.SetType(_rng.RandiRange(0, 2));
-	//         AddChild(buff);
-	//         buff.Name = "Buff" + buff.Type;
-	//         buff.GlobalPosition = _maze[x][y].GetSpawnPointPosition();
-	//         buff.Rotation = _rng.RandfRange(0, 2 * Mathf.Pi);
-	//     }
-	//
-	//     private void _ServerDisconnected()
-	//     {
-	//         GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
-	//     }
-	//
+	// 	private void _ServerDisconnected()
+	// {
+	//     GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
 	// }
 }

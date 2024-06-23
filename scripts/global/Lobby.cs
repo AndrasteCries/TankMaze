@@ -13,7 +13,6 @@ public partial class Lobby : Node
 	{
 		Player player = new Player();
 		AddPlayer(player);
-		
 	}
 
 	public void AddPlayer(Player player)

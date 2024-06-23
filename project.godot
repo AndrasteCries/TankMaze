@@ -19,7 +19,6 @@ config/icon="res://assets/icon.svg"
 
 GameSettings="*res://scripts/global/GameSettings.cs"
 Lobby="*res://scripts/global/Lobby.cs"
-EventBus="*res://scripts/Event_bus.gd"
 Global="*res://scripts/global/Global.cs"
 
 [debug]

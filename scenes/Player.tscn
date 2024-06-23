@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b42m1l1nqj3ca"]
+[gd_scene load_steps=7 format=3 uid="uid://b42m1l1nqj3ca"]
 
-[ext_resource type="Script" path="res://scripts/Player/Tank.cs" id="1_skvy5"]
-[ext_resource type="Texture2D" uid="uid://cd6jg28gep56w" path="res://assets/Player/tank.png" id="8_alwed"]
+[ext_resource type="Script" path="res://scripts/player/Tank.cs" id="1_emoir"]
+[ext_resource type="PackedScene" uid="uid://c14sf8otq17mw" path="res://scenes/towers/ShotgunTower.tscn" id="3_hjx5r"]
+[ext_resource type="Texture2D" uid="uid://cd6jg28gep56w" path="res://assets/player/tank.png" id="8_alwed"]
 [ext_resource type="PackedScene" uid="uid://cor150l5vu4sq" path="res://scenes/towers/Tower.tscn" id="9_f06ui"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_grpgv"]
@@ -19,13 +20,13 @@ properties/1/replication_mode = 1
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
 platform_wall_layers = 1
-script = ExtResource("1_skvy5")
+script = ExtResource("1_emoir")
+_defaultTower = ExtResource("9_f06ui")
+_shotgunTower = ExtResource("3_hjx5r")
 
 [node name="Tank" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
 texture = ExtResource("8_alwed")
-
-[node name="Tower" parent="." instance=ExtResource("9_f06ui")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

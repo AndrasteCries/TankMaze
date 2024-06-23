@@ -1,28 +1,30 @@
 using Godot;
 using System;
+using mazetank.scripts.player.towers;
 
 namespace mazetank.scripts.player;
 public partial class Tank : CharacterBody2D
 {
-	[Export] public int Speed = 300;
-	[Export] public int RotationSpeed = 5;
+	[Export] private int _speed = 300;
+	[Export] private int _rotationSpeed = 5;
 
-	[Export] public PackedScene DefaultTower;
-	[Export] public PackedScene BigShotTower;
-	[Export] public PackedScene LaserTower;
-	[Export] public PackedScene MinigunTower;
-	[Export] public PackedScene RocketTower;
-	[Export] public PackedScene ShotgunTower;
-
-	private Node World;
-	private float SteerAngle;
-	private int RotationDirection = 0;
-	private bool Alive = true;
-	private Timer RespawnTimer = new Timer();
-	private string TowerType = "Normal";
+	[Export] private PackedScene _defaultTower;
+	[Export] private PackedScene _bigShotTower;
+	[Export] private PackedScene _laserTower;
+	[Export] private PackedScene _minigunTower;
+	[Export] private PackedScene _rocketTower;
+	[Export] private PackedScene _shotgunTower;
+	
+	private bool _alive = true;
+	private Timer _respawnTimer = new Timer();
+	public string TowerType { get; set; } = "Default";
 
 	public override void _Ready()
 	{
+		var tower = _defaultTower.Instantiate();
+		tower.Name = "Tower";
+		AddChild(tower);
+		ChangeTower();
 		// AddChild(RespawnTimer);
 		// GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").SetMultiplayerAuthority(int.Parse(Name));
 		// int colorId = (int)Lobby.Players[int.Parse(Name)]["Color"];
@@ -42,34 +44,35 @@ public partial class Tank : CharacterBody2D
 		{
 			turn -= 1;
 		}
-		Rotation += RotationSpeed * turn * delta;
+		Rotation += _rotationSpeed * turn * delta;
 
 		Velocity = Vector2.Zero;
 		if (Input.IsActionPressed("W"))
 		{
-			Velocity = new Vector2(0, -Speed).Rotated(Rotation);
+			Velocity = new Vector2(0, -_speed).Rotated(Rotation);
 		}
 		if (Input.IsActionPressed("S"))
 		{
-			Velocity = new Vector2(0, Speed).Rotated(Rotation);
+			Velocity = new Vector2(0, _speed).Rotated(Rotation);
 		}
 
 		if (Input.IsActionJustReleased("LMB"))
 		{
-			GetNode("Tower").Call("shoot_rpc");
+			GetNode<ITower>("Tower").Shoot();
+			//GetNode("Tower").Call("shoot_rpc");
 		}
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").GetMultiplayerAuthority() == Multiplayer.GetUniqueId() && Alive)
+		if (GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").GetMultiplayerAuthority() == Multiplayer.GetUniqueId() && _alive)
 		{
 			MoveAndSlide();
 			GetInput((float)delta);
 		}
-	}
+	}	
 
-	[Rpc(CallLocal = true)]
+	//[Rpc(CallLocal = true)]
 	public void ChangeTower()
 	{
 		Node newTower = null;
@@ -79,22 +82,25 @@ public partial class Tank : CharacterBody2D
 		switch (TowerType)
 		{
 			case "Default":
-				newTower = DefaultTower.Instantiate();
+				newTower = _defaultTower.Instantiate();
 				break;
 			case "Big_shot":
-				newTower = BigShotTower.Instantiate();
+				newTower = _bigShotTower.Instantiate();
 				break;
 			case "Laser":
-				newTower = LaserTower.Instantiate();
+				newTower = _laserTower.Instantiate();
 				break;
 			case "Minigun":
-				newTower = MinigunTower.Instantiate();
+				newTower = _minigunTower.Instantiate();
 				break;
 			case "Rocket":
-				newTower = RocketTower.Instantiate();
+				newTower = _rocketTower.Instantiate();
 				break;
 			case "Shotgun":
-				newTower = ShotgunTower.Instantiate();
+				newTower = _shotgunTower.Instantiate();
+				break;
+			default:
+				newTower = _defaultTower.Instantiate();
 				break;
 		}
 

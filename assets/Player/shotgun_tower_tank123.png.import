@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cfwnqfwxbrcuj"
-path="res://.godot/imported/shotgun_tower_tank123.png-a4a343308a1de1c93075ff4a8134f65d.ctex"
+path="res://.godot/imported/shotgun_tower_tank123.png-792a88af045e0d3e375b222447f80486.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Player/shotgun_tower_tank123.png"
-dest_files=["res://.godot/imported/shotgun_tower_tank123.png-a4a343308a1de1c93075ff4a8134f65d.ctex"]
+source_file="res://assets/player/shotgun_tower_tank123.png"
+dest_files=["res://.godot/imported/shotgun_tower_tank123.png-792a88af045e0d3e375b222447f80486.ctex"]
 
 [params]
 

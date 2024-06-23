@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cd6qsyt7742dd"
-path="res://.godot/imported/tower_tank.png-2b15eb1fd5ebeb157cee8fb69cb5484f.ctex"
+path="res://.godot/imported/tower_tank.png-e73a93bf5717e1595cef74d7c9a25bb5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Player/tower_tank.png"
-dest_files=["res://.godot/imported/tower_tank.png-2b15eb1fd5ebeb157cee8fb69cb5484f.ctex"]
+source_file="res://assets/player/tower_tank.png"
+dest_files=["res://.godot/imported/tower_tank.png-e73a93bf5717e1595cef74d7c9a25bb5.ctex"]
 
 [params]
 

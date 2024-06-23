@@ -1,19 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://c14sf8otq17mw"]
 
-[ext_resource type="Script" path="res://scenes/towers/ShotgunTower.gd" id="1_tfffe"]
-[ext_resource type="Texture2D" uid="uid://cfwnqfwxbrcuj" path="res://assets/Player/shotgun_tower_tank123.png" id="1_wxtxd"]
+[ext_resource type="Script" path="res://scripts/player/towers/ShotgunTower.cs" id="1_oowi5"]
+[ext_resource type="Texture2D" uid="uid://cfwnqfwxbrcuj" path="res://assets/player/shotgun_tower_tank123.png" id="1_wxtxd"]
 [ext_resource type="PackedScene" uid="uid://0efck08c76ca" path="res://scenes/Bullet.tscn" id="2_hqjd8"]
 
 [node name="Tower" type="Node2D"]
 position = Vector2(0, -2)
 scale = Vector2(3, 3)
-script = ExtResource("1_tfffe")
+script = ExtResource("1_oowi5")
 Bullet = ExtResource("2_hqjd8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_wxtxd")
 
-[node name="Muzzle" type="Marker2D" parent="Sprite2D"]
+[node name="Muzzle1" type="Marker2D" parent="Sprite2D"]
 position = Vector2(3, -11)
 
 [node name="Muzzle2" type="Marker2D" parent="Sprite2D"]

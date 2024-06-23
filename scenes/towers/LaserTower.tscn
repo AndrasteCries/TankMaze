@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://8x51lhk06afv"]
 
-[ext_resource type="Script" path="res://scenes/towers/LaserTower.gd" id="1_qh80g"]
-[ext_resource type="Texture2D" uid="uid://b8y8af6mi2ome" path="res://assets/Player/laser_tower_tank.png" id="1_wtfwl"]
+[ext_resource type="Script" path="res://scripts/player/towers/LaserTower.gd" id="1_qh80g"]
+[ext_resource type="Texture2D" uid="uid://b8y8af6mi2ome" path="res://assets/player/laser_tower_tank.png" id="1_wtfwl"]
 [ext_resource type="PackedScene" uid="uid://0efck08c76ca" path="res://scenes/Bullet.tscn" id="2_s8und"]
 
 [node name="Tower" type="Node2D"]
@@ -13,5 +13,5 @@ Bullet = ExtResource("2_s8und")
 position = Vector2(0, -2)
 texture = ExtResource("1_wtfwl")
 
-[node name="Muzzle" type="Marker2D" parent="Sprite2D"]
+[node name="Muzzle1" type="Marker2D" parent="Sprite2D"]
 position = Vector2(0, -10)

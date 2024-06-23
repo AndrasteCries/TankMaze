@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://qjptymdeyfr5"
-path="res://.godot/imported/big_shot_tank.png-7d97b3d14c97eca7aadd5163ffcbb6bc.ctex"
+path="res://.godot/imported/big_shot_tank.png-26c6f67a7299c5b9b544f07b7e295b21.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Player/big_shot_tank.png"
-dest_files=["res://.godot/imported/big_shot_tank.png-7d97b3d14c97eca7aadd5163ffcbb6bc.ctex"]
+source_file="res://assets/player/big_shot_tank.png"
+dest_files=["res://.godot/imported/big_shot_tank.png-26c6f67a7299c5b9b544f07b7e295b21.ctex"]
 
 [params]
 

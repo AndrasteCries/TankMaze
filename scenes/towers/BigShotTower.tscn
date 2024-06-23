@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://blko8jd4hs8ea"]
 
-[ext_resource type="Script" path="res://scenes/towers/BigShotTower.gd" id="1_0rmb3"]
-[ext_resource type="Texture2D" uid="uid://qjptymdeyfr5" path="res://assets/Player/big_shot_tank.png" id="1_7jafk"]
+[ext_resource type="Script" path="res://scripts/player/towers/BigShotTower.gd" id="1_0rmb3"]
+[ext_resource type="Texture2D" uid="uid://qjptymdeyfr5" path="res://assets/player/big_shot_tank.png" id="1_7jafk"]
 [ext_resource type="PackedScene" uid="uid://cvandy3m1s04a" path="res://scenes/Big_Bullet.tscn" id="2_ra5mm"]
 
 [node name="Tower" type="Node2D"]
@@ -13,5 +13,5 @@ Bullet = ExtResource("2_ra5mm")
 position = Vector2(0, -2)
 texture = ExtResource("1_7jafk")
 
-[node name="Muzzle" type="Marker2D" parent="Sprite2D"]
+[node name="Muzzle1" type="Marker2D" parent="Sprite2D"]
 position = Vector2(0, -13.6667)

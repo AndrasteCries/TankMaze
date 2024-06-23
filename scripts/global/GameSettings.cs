@@ -16,6 +16,5 @@ public partial class GameSettings : Node
 	
 	public override void _Ready()
 	{
-		GD.Print("Hello death");
 	}
 }

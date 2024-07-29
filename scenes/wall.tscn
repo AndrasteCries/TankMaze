@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfh3tubq6nxrj"]
+[gd_scene load_steps=8 format=3 uid="uid://bfh3tubq6nxrj"]
 
 [ext_resource type="Script" path="res://scripts/maze/Cell.cs" id="1_miajd"]
 [ext_resource type="PackedScene" uid="uid://isvex8neqkhs" path="res://scenes/Buff.tscn" id="2_ra2wu"]
@@ -12,6 +12,9 @@ size = Vector2(10, 90)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gdfx"]
 size = Vector2(10, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wfd7k"]
+size = Vector2(100, 100)
 
 [node name="Area2D" type="StaticBody2D"]
 z_index = -10
@@ -87,3 +90,13 @@ grow_vertical = 2
 color = Color(0, 0.517647, 0.713726, 1)
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
+
+[node name="CellShape" type="Area2D" parent="."]
+position = Vector2(-50, -50)
+
+[node name="CellCollider" type="CollisionShape2D" parent="CellShape"]
+position = Vector2(50, 50)
+shape = SubResource("RectangleShape2D_wfd7k")
+
+[connection signal="area_entered" from="CellShape" to="." method="OnCell"]
+[connection signal="area_exited" from="CellShape" to="." method="OutCell"]

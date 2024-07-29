@@ -7,7 +7,7 @@ namespace mazetank.scripts.global;
 
 public partial class Lobby : Node
 {
-	public List<Player> Players { get; set; } = new List<Player>();
+	private List<Player> Players { get; set; } = new List<Player>();
 	
 	public override void _Ready()
 	{
@@ -31,4 +31,15 @@ public partial class Lobby : Node
 
 	public int GetPlayerCount() => Players.Count;
 
+	public List<Player> GetPlayers() => Players;
+	
+	public Player GetPlayerByNickName(string playerNickname)
+	{
+		foreach (var player in Players)
+		{
+			if (player.Nickname == playerNickname) return player;
+		}
+		return null;
+	}
+	
 }

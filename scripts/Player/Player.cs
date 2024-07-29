@@ -18,12 +18,32 @@ public partial class Player : Node2D
 		{ 2, new Color(0.584f, 0, 1) }, // Purple
 		{ 3, new Color(0.172f, 0.404f, 1) } // Blue
 	};
-	public override void _Ready()
+
+	public Player()
 	{
+		Nickname = "Player1";
 	}
 	
 	public override void _Process(double delta)
 	{
+		GD.Print(Score);
+	}
+
+	public void SetScore(int score)
+	{
+		Score += score;
+	}
+	
+	public void ChangeScore(string nickname)
+	{
+		if (Nickname == nickname)
+		{
+			Score--;
+		}
+		else
+		{
+			Score++;
+		}
 	}
 }
 

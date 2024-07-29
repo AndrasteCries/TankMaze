@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://isvex8neqkhs"]
 
-[ext_resource type="Script" path="res://scripts/maze/buff/Buff.cs" id="1_0cteu"]
+[ext_resource type="Script" path="res://scripts/maze/buff/Buff.cs" id="1_j661i"]
 [ext_resource type="Texture2D" uid="uid://b2i8u66qetf7r" path="res://assets/buffs/big_shot_buff.png" id="2_1vier"]
 [ext_resource type="Texture2D" uid="uid://drxhne2goubne" path="res://assets/buffs/laser_buff.png" id="3_ktjgw"]
 [ext_resource type="Texture2D" uid="uid://bxoqc5330up2u" path="res://assets/buffs/minigun_buff.png" id="4_emwf5"]
@@ -11,7 +11,7 @@
 size = Vector2(33, 32)
 
 [node name="Buff" type="Node2D"]
-script = ExtResource("1_0cteu")
+script = ExtResource("1_j661i")
 _shotgunBuffTexture = ExtResource("6_32rm8")
 _bigShotBuffTexture = ExtResource("2_1vier")
 _laserBuffTexture = ExtResource("3_ktjgw")
@@ -19,6 +19,7 @@ _minigunBuffTexture = ExtResource("4_emwf5")
 _rocketBuffTexture = ExtResource("5_2d6ak")
 
 [node name="BuffArea" type="Area2D" parent="."]
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BuffArea"]
 position = Vector2(0.5, 0)

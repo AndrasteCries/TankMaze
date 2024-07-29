@@ -1,36 +1,81 @@
-[gd_scene load_steps=4 format=3 uid="uid://0efck08c76ca"]
+[gd_scene load_steps=7 format=3 uid="uid://0efck08c76ca"]
 
-[ext_resource type="Script" path="res://scripts/player/bullets/Bullet.gd" id="1_an25q"]
 [ext_resource type="Texture2D" uid="uid://ck841efwi3fii" path="res://assets/bullet/bullet.png" id="1_qcgw0"]
+[ext_resource type="Script" path="res://scripts/player/bullets/Bullet.cs" id="1_y44ri"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f5a8i"]
 radius = 5.09902
+
+[sub_resource type="Animation" id="Animation_ocrkw"]
+resource_name = "BulletAnimation"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bullet:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.4, 1.7, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.466667), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_te5bc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bullet:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.470588)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6q6ag"]
+_data = {
+"BulletAnimation": SubResource("Animation_ocrkw"),
+"RESET": SubResource("Animation_te5bc")
+}
 
 [node name="Bullet" type="CharacterBody2D"]
 collision_layer = 2
 floor_constant_speed = true
 platform_wall_layers = 1
-script = ExtResource("1_an25q")
+script = ExtResource("1_y44ri")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_f5a8i")
 
 [node name="Bullet" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.470588)
 texture = ExtResource("1_qcgw0")
 
 [node name="BulletArea" type="Area2D" parent="."]
 visible = false
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletArea"]
 shape = SubResource("CircleShape2D_f5a8i")
 disabled = true
 
-[node name="Timer_to_live" type="Timer" parent="."]
+[node name="TimerToLive" type="Timer" parent="."]
 
-[node name="Timer_collide" type="Timer" parent="."]
+[node name="TimerCollide" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
 autostart = true
 
-[connection signal="timeout" from="Timer_to_live" to="." method="_on_timer_to_live_timeout"]
-[connection signal="timeout" from="Timer_collide" to="." method="_on_timer_collide_timeout"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6q6ag")
+}
+autoplay = "BulletAnimation"
+
+[connection signal="timeout" from="TimerToLive" to="." method="_on_timer_to_live_timeout"]
+[connection signal="timeout" from="TimerCollide" to="." method="_on_timer_collide_timeout"]

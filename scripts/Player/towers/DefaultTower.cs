@@ -1,4 +1,5 @@
 using Godot;
+using mazetank.scripts.player.bullets;
 
 namespace mazetank.scripts.player.towers;
 
@@ -8,9 +9,11 @@ public partial class DefaultTower : Node2D, ITower
 	public int BulletsCount { get; set; } = 4;
 	public Node World { get; set; }
 	public Marker2D Muzzle1 { get; set; }
+	private string _playerNickname;
 	
 	public override void _Ready()
 	{
+		_playerNickname = GetParent().Name;
 		World = GetNode("/root/Game");
 		Muzzle1 = GetNode<Marker2D>("Sprite2D/Muzzle");
 	}
@@ -19,20 +22,18 @@ public partial class DefaultTower : Node2D, ITower
 	{
 		if (BulletsCount > 0)
 		{
-			var b = (Node2D)Bullet.Instantiate();
-			b.Name = $"{Name} bullet №{BulletsCount}";
-
+			var b = (Bullet)Bullet.Instantiate();
+			b.SetNickname(_playerNickname);
+			b.Name = _playerNickname + " bullet";
 			var timerToDeath = new Timer
 			{
-				Name = b.Name,
 				WaitTime = 2
 			};
-
 			AddChild(timerToDeath);
 			World.AddChild(b);
 
 			timerToDeath.Start();
-			b.Call("start", Muzzle1.GlobalPosition,  GetParent<CharacterBody2D>().Rotation);
+			b.Call("Start", Muzzle1.GlobalPosition,  GetParent<CharacterBody2D>().Rotation);
 
 			BulletsCount -= 1;
 			await ToSignal(timerToDeath, "timeout");

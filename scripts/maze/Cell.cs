@@ -1,7 +1,7 @@
 using Godot;
 using System;
+using mazetank.scripts.maze.buff;
 using mazetank.scripts.player;
-using mazetank.scripts.player.buff;
 
 namespace mazetank.scripts.maze;
 public partial class Cell : StaticBody2D
@@ -12,6 +12,8 @@ public partial class Cell : StaticBody2D
 	public bool BottomWall { get; set; } = true;
 	public bool LeftWall { get; set; } = true;
 	public bool Visited { get; set; } = false;
+	public bool HadPlayer { get; set; } = false;
+	public bool HadBuff { get; set; } = false;
 	private Marker2D _spawnPoint;
 	
 	public override void _Ready()
@@ -69,22 +71,71 @@ public partial class Cell : StaticBody2D
 	
 	public Vector2 GetSpawnpointPosition() => _spawnPoint.GlobalPosition;
 
-	public void SpawnPlayer(RandomNumberGenerator rng)
+	public Tank SpawnNewPlayer(RandomNumberGenerator rng, string nickname)
 	{
-		Tank tank = (Tank)PlayerScene.Instantiate();
-		GetParent().AddChild(tank);
-		tank.GlobalPosition = GetSpawnpointPosition();
-		tank.Rotation = rng.RandfRange(0, 2 * Mathf.Pi);
-		
+		if (!HadBuff)
+		{
+			Tank tank = (Tank)PlayerScene.Instantiate();
+			tank.GlobalPosition = GetSpawnpointPosition();
+			tank.Rotation = rng.RandfRange(0, 2 * Mathf.Pi);
+			tank.Name = nickname;
+			GetParent().AddChild(tank);
+			return tank;
+		}
+		return null;
 	}
 	
-	public void SpawnBuff(int buffType, RandomNumberGenerator rng)
+	public Tank SpawnPlayer(RandomNumberGenerator rng, Tank tank)
 	{
-		var buff = (Buff)BuffScene.Instantiate();
-		GetParent().AddChild(buff);
-		buff.GlobalPosition = GetSpawnpointPosition();
-		buff.Rotation = rng.RandfRange(0, 2 * Mathf.Pi);
-		buff.SetBuffType(0); //random range
-		
+		if (!HadPlayer)
+		{
+			tank.GlobalPosition = GetSpawnpointPosition();
+			tank.Rotation = rng.RandfRange(0, 2 * Mathf.Pi);
+			tank.TowerType = "Default";
+			tank.ChangeTower();
+			return tank;
+		}
+		return null;
+	}
+	
+	public Buff SpawnBuff(RandomNumberGenerator rng, int buffType)
+	{
+		if (!HadBuff)
+		{
+			Buff buff = (Buff)BuffScene.Instantiate();
+			GetParent().AddChild(buff);
+			buff.GlobalPosition = GetSpawnpointPosition();
+			buff.Rotation = rng.RandfRange(0, 2 * Mathf.Pi);
+			buff.SetBuffType(0); //random range
+			return buff;
+		}
+		return null;
+	}
+	
+	private void OnCell(Area2D area)
+	{
+		var areaParent = area.GetParent();
+		if (areaParent is Buff buff)
+		{
+			HadBuff = true;
+		} else if (areaParent is Tank tank)
+		{
+			HadPlayer = true;
+		}
+	}
+
+
+	private void OutCell(Area2D area)
+	{
+		var areaParent = area.GetParent();
+		if (areaParent is Buff buff)
+		{
+			HadBuff = false;
+		} else if (areaParent is Tank tank)
+		{
+			HadPlayer = false;
+		}
 	}
 }
+
+

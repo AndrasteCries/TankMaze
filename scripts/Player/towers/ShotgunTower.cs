@@ -30,12 +30,12 @@ public partial class ShotgunTower : Node2D, ITower
 
 			if (_flag == 0)
 			{
-				b.Call("start", Muzzle1.GlobalPosition, GetParent<CharacterBody2D>().Rotation);
+				b.Call("Start", Muzzle1.GlobalPosition, GetParent<CharacterBody2D>().Rotation);
 				_flag = 1;
 			}
 			else
 			{
-				b.Call("start", Muzzle2.GlobalPosition, GetParent<CharacterBody2D>().Rotation);
+				b.Call("Start", Muzzle2.GlobalPosition, GetParent<CharacterBody2D>().Rotation);
 				_flag = 0;
 			}
 

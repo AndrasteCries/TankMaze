@@ -1,59 +1,76 @@
+using System.Linq;
 using Godot;
 using mazetank.scripts.global;
 using mazetank.scripts.maze;
 using mazetank.scripts.player;
-using mazetank.scripts.player.buff;
 
-namespace mazetank.scripts.util;
-
-public partial class Game : Node2D
+namespace mazetank.scripts.util
+{
+	public partial class Game : Node2D
 	{
 		[Export] public Timer BuffSpawnTimer { get; set; }
+		[Export] private double _respawnTime;
 
 		private Maze _maze;
 		private RandomNumberGenerator _rng = new RandomNumberGenerator();
 
-		//[Signal]
-		//public delegate void ScoreRefresh();
-
 		public override void _Ready()
 		{
-			_maze = GetNode<Maze>("Maze");
 			_rng.Seed = (ulong)Global.GameSettings.GetSeed();
+			_respawnTime = Global.GameSettings.GetRespawnTime();
+			_maze = GetNode<Maze>("Maze");
 			SpawnMaze();
 			SpawnPlayers();
-			
-			// EventBus.player_dead += _RespawnPlayer;
-			// multiplayer.server_disconnected += _ServerDisconnected;
 			BuffSpawnTimer.Timeout += _SpawnBuff;
+			// multiplayer.server_disconnected += _ServerDisconnected;
+			
+		}
+		
+		public override void _Process(double delta)
+		{
+		}
+		
+		private void _playerWasKilled(string killerNickname, string victimNickname)
+		{
+			Player killer = Global.Lobby.GetPlayerByNickName(killerNickname);
+			killer?.ChangeScore(killerNickname);
+			GetTree().CreateTimer(_respawnTime).Timeout += () => RespawnPlayer(victimNickname);
 		}
 
 		private void SpawnMaze()
 		{
 			_maze.FinishMaze();
-			for (int i = 0; i < _maze._maze.Count; i++)
+			for (int i = 0; i < _maze.GetMaze().Count; i++)
 			{
-				for (int j = 0; j < _maze._maze[i].Count; j++)
+				for (int j = 0; j < _maze.GetMaze()[i].Count; j++)
 				{
-					_maze.AddChild(_maze._maze[i][j]);
+					_maze.AddChild(_maze.GetMaze()[i][j]);
 				}
 			}
 		}
 
 		private void SpawnPlayers()
 		{
-			foreach (Player player in Global.Lobby.Players)
+			var players = Global.Lobby.GetPlayers();
+			foreach (Player player in players)
 			{
-				var cell = _maze.GetRandomCell();
-				cell.SpawnPlayer(_rng);
+				_maze.AddTank(player.Nickname);
 			}
 		}
-	
+		
+		private void RespawnPlayer(string nickname)
+		{
+			Tank victim = _maze.FindTankByNickname(nickname);
+			_maze.RespawnTank(victim);
+			victim.SetState(true);
+		}
+
 		private void _SpawnBuff()
 		{
-			var cell = _maze.GetRandomCell();
-			int buffType = _rng.RandiRange(0, 1);
-			cell.SpawnBuff(buffType, _rng);
+			if (_maze.GetBuffCount() < Global.GameSettings.GetBuffsCount())
+			{
+				_maze.AddBuff();
+			}
 		}
 		
 		// private void _RespawnPlayer(int peerId, string killer)
@@ -78,8 +95,20 @@ public partial class Game : Node2D
 		//     player.Show();
 		//     EmitSignal(nameof(ScoreRefresh));
 		// }
-	// 	private void _ServerDisconnected()
-	// {
-	//     GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
-	// }
+		// private void _ServerDisconnected()
+		// {
+		//     GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
+		// }
+		public override void _EnterTree()
+		{
+			Tank.PlayerWasKilled += _playerWasKilled;
+		}
+
+		public override void _ExitTree()
+		{
+			Tank.PlayerWasKilled += _playerWasKilled;
+		}
+	}
 }
+
+

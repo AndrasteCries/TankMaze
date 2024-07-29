@@ -1,10 +1,16 @@
 using Godot;
 using System;
+using mazetank.scripts.maze.buff;
+using mazetank.scripts.player.bullets;
 using mazetank.scripts.player.towers;
+using mazetank.scripts.util;
 
 namespace mazetank.scripts.player;
 public partial class Tank : CharacterBody2D
 {
+	public delegate void PlayerWasKilledEventHandler(string killerNickname, string victimNickname);
+	public static event PlayerWasKilledEventHandler PlayerWasKilled;
+
 	[Export] private int _speed = 300;
 	[Export] private int _rotationSpeed = 5;
 
@@ -16,21 +22,16 @@ public partial class Tank : CharacterBody2D
 	[Export] private PackedScene _shotgunTower;
 	
 	private bool _alive = true;
-	private Timer _respawnTimer = new Timer();
 	public string TowerType { get; set; } = "Default";
 
 	public override void _Ready()
-	{
+	{ 
 		var tower = _defaultTower.Instantiate();
 		tower.Name = "Tower";
 		AddChild(tower);
-		ChangeTower();
-		// AddChild(RespawnTimer);
 		// GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").SetMultiplayerAuthority(int.Parse(Name));
 		// int colorId = (int)Lobby.Players[int.Parse(Name)]["Color"];
 		// Modulate = Lobby.Colors[colorId];
-		//
-		// RespawnTimer.Timeout += OnRespawnTimeout;
 	}
 
 	private void GetInput(float delta)
@@ -78,13 +79,13 @@ public partial class Tank : CharacterBody2D
 		Node newTower = null;
 		GetNode("Tower").QueueFree();
 		RemoveChild(GetNode("Tower"));
-
+		GD.Print(TowerType);
 		switch (TowerType)
 		{
 			case "Default":
 				newTower = _defaultTower.Instantiate();
 				break;
-			case "Big_shot":
+			case "BigShot":
 				newTower = _bigShotTower.Instantiate();
 				break;
 			case "Laser":
@@ -107,32 +108,34 @@ public partial class Tank : CharacterBody2D
 		AddChild(newTower);
 		newTower.Name = "Tower";
 	}
-
-	// private async void OnArea2DEntered(Area2D area)
-	// {
-	//     if (area.Name == "BulletArea" && Alive)
-	//     {
-	//         var killer = area.GetParent().Name;
-	//         area.GetParent().QueueFree();
-	//         Hide();
-	//         Alive = false;
-	//         RespawnTimer.WaitTime = 1.5f;
-	//         RespawnTimer.Start();
-	//
-	//         await ToSignal(RespawnTimer, "timeout");
-	//         Alive = true;
-	//         EventBus.PlayerDead.Emit(Name, killer);
-	//     }
-	//     else if (area.Name == "BuffArea" && Alive)
-	//     {
-	//         TowerType = area.GetParent().Get<string>("type");
-	//         ChangeTower();
-	//         area.GetParent().QueueFree();
-	//     }
-	// }
-
+	private void _on_tank_area_area_entered(Area2D area)
+	{
+		var areaParent = area.GetParent();
+		if (areaParent is Buff buff)
+		{
+			TowerType = buff.BuffName;
+			ChangeTower();
+			buff.QueueFree();
+		} else if (areaParent is Bullet bullet)
+		{
+			PlayerWasKilled?.Invoke(bullet.GetNickname(), Name);
+			SetState(false);
+		}
+	}
+	
 	private void OnRespawnTimeout()
 	{
-		// Handle respawn logic if needed
+		ChangeTower();
+		SetState(true);
+	}
+
+	public void SetState(bool status)
+	{
+		Visible = status;
+		SetProcess(status);
+		SetPhysicsProcess(status);
 	}
 }
+
+
+

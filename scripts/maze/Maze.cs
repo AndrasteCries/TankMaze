@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using global::mazetank.scripts.global;
+using mazetank.scripts.maze.buff;
+using mazetank.scripts.player;
 
 namespace mazetank.scripts.maze;
 public partial class Maze : Node2D
@@ -12,11 +14,15 @@ public partial class Maze : Node2D
 	private Vector2I _size;
 	private int _randomWallsCount;
 	private RandomNumberGenerator _rng;
-	public List<List<Cell>> _maze;
+	private List<List<Cell>> _cellsMaze;
+	private List<Tank> _tanks;
+	private List<Buff> _buffs;
 	
 	public override void _Ready()
 	{
-		_maze = new List<List<Cell>>();
+		_cellsMaze = new List<List<Cell>>();
+		_tanks = new List<Tank>();
+		_buffs = new List<Buff>();
 		_size = Global.GameSettings.GetSize();
 		_randomWallsCount = Global.GameSettings.GetRandomWallsDestroy();
 		
@@ -57,7 +63,7 @@ public partial class Maze : Node2D
 
 	private void BacktrackingPath()
 	{
-		Cell currentCell = _maze[0][1];
+		Cell currentCell = _cellsMaze[0][1];
 		currentCell.Visited = true;
 		Stack<Cell> stack = new Stack<Cell>();
 
@@ -67,14 +73,14 @@ public partial class Maze : Node2D
 			int x = currentCell.Pos.X;
 			int y = currentCell.Pos.Y;
 
-			if (x > 0 && !_maze[x - 1][y].Visited)
-				unvisitedCells.Add(_maze[x - 1][y]);
-			if (y > 1 && !_maze[x][y - 1].Visited)
-				unvisitedCells.Add(_maze[x][y - 1]);
-			if (x < _size.X - 1 && !_maze[x + 1][y].Visited)
-				unvisitedCells.Add(_maze[x + 1][y]);
-			if (y < _size.Y && !_maze[x][y + 1].Visited)
-				unvisitedCells.Add(_maze[x][y + 1]);
+			if (x > 0 && !_cellsMaze[x - 1][y].Visited)
+				unvisitedCells.Add(_cellsMaze[x - 1][y]);
+			if (y > 1 && !_cellsMaze[x][y - 1].Visited)
+				unvisitedCells.Add(_cellsMaze[x][y - 1]);
+			if (x < _size.X - 1 && !_cellsMaze[x + 1][y].Visited)
+				unvisitedCells.Add(_cellsMaze[x + 1][y]);
+			if (y < _size.Y && !_cellsMaze[x][y + 1].Visited)
+				unvisitedCells.Add(_cellsMaze[x][y + 1]);
 
 			if (unvisitedCells.Count > 0)
 			{
@@ -129,9 +135,9 @@ public partial class Maze : Node2D
 		int q = 0;
 		while (q < _randomWallsCount)
 		{
-			int x = _rng.RandiRange(1, _maze.Count - 2);
-			int y = _rng.RandiRange(1, _maze[0].Count - 2);
-			Cell cell = _maze[x][y];
+			int x = _rng.RandiRange(1, _cellsMaze.Count - 2);
+			int y = _rng.RandiRange(1, _cellsMaze[0].Count - 2);
+			Cell cell = _cellsMaze[x][y];
 
 			if (cell.LeftWall)
 			{
@@ -155,10 +161,10 @@ public partial class Maze : Node2D
 		{
 			for (int y = 0; y <= _size.Y; y++)
 			{
-				Cell cell = _maze[x][y];
+				Cell cell = _cellsMaze[x][y];
 				if (!cell.LeftWall && !cell.BottomWall)
 				{
-					if (!_maze[x - 1][y].BottomWall && !_maze[x][y + 1].LeftWall)
+					if (!_cellsMaze[x - 1][y].BottomWall && !_cellsMaze[x][y + 1].LeftWall)
 					{
 						cell.DestroyColumnWall();
 					}
@@ -169,16 +175,64 @@ public partial class Maze : Node2D
 
 	public void FinishMaze()
 	{
-		_maze = CreateArrayMaze();
+		_cellsMaze = CreateArrayMaze();
 		BacktrackingPath();
 		RemoveRandomWall();
 		RemoveExtraColumn();
 	}
+
+	public void AddTank(string nickname)
+	{
+		var tank = GetRandomCell()?.SpawnNewPlayer(_rng, nickname);
+		if (tank != null) _tanks.Add(tank);
+		else AddTank(nickname);
+	}
+	
+	public Tank FindTankByNickname(string nickname)
+	{
+		foreach (var tank in _tanks)
+		{
+			if (tank.Name == nickname) return tank;
+		}
+		return null;
+	}
+	
+	public void AddBuff()
+	{
+		var buff = GetRandomCell()?.SpawnBuff(_rng, _rng.RandiRange(0, 1));
+		if (buff != null) _buffs.Add(buff);
+		else AddBuff();
+	}
+
+	public void RespawnTank(Tank tank)
+	{
+		var reTank = GetRandomCell()?.SpawnPlayer(_rng, tank);
+		if(reTank == null) RespawnTank(tank);
+	}
+	
+	public void RemoveBuff(Buff buff)
+	{
+		_buffs.Remove(buff);
+	}
+
+	public int GetBuffCount() => _buffs.Count;
 	
 	public Cell GetRandomCell()
 	{
-		var x = _rng.RandiRange(0, _maze.Count - 2);
-		var y = _rng.RandiRange(1, _maze[0].Count - 1);
-		return _maze[x][y];
+		var x = _rng.RandiRange(0, _cellsMaze.Count - 2);
+		var y = _rng.RandiRange(1, _cellsMaze[0].Count - 1);
+		return _cellsMaze[x][y];
+	}
+
+	public List<List<Cell>> GetMaze() => _cellsMaze;
+	
+	public override void _EnterTree()
+	{
+		Buff.BuffWasTaken += RemoveBuff;
+	}
+	
+	public override void _ExitTree()
+	{
+		Buff.BuffWasTaken -= RemoveBuff;
 	}
 }

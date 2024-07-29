@@ -10,11 +10,11 @@ script = ExtResource("1_kexn6")
 BuffSpawnTimer = NodePath("BuffSpawnTimer")
 
 [node name="Maze" type="Node2D" parent="."]
-position = Vector2(194, 1)
 script = ExtResource("2_0e787")
 CellScene = ExtResource("3_gfyl4")
 
 [node name="UI" parent="." instance=ExtResource("4_bo6yh")]
+visible = false
 
 [node name="BuffSpawnTimer" type="Timer" parent="."]
 wait_time = 2.0

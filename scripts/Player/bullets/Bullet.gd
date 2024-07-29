@@ -28,3 +28,4 @@ func _on_timer_to_live_timeout():
 
 func _on_timer_collide_timeout():
 	$BulletArea/CollisionShape2D.disabled = false
+

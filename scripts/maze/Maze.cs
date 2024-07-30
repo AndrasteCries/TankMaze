@@ -203,7 +203,6 @@ public partial class Maze : Node2D
 		if (buff != null) _buffs.Add(buff);
 		else AddBuff();
 	}
-
 	public void RespawnTank(Tank tank)
 	{
 		var reTank = GetRandomCell()?.SpawnPlayer(_rng, tank);

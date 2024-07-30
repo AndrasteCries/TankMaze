@@ -21,7 +21,7 @@ namespace mazetank.scripts.util
 			_maze = GetNode<Maze>("Maze");
 			SpawnMaze();
 			SpawnPlayers();
-			BuffSpawnTimer.Timeout += _SpawnBuff;
+			//BuffSpawnTimer.Timeout += _SpawnBuff;
 			// multiplayer.server_disconnected += _ServerDisconnected;
 			
 		}

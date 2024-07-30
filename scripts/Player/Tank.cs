@@ -71,6 +71,7 @@ public partial class Tank : CharacterBody2D
 			MoveAndSlide();
 			GetInput((float)delta);
 		}
+		
 	}	
 
 	//[Rpc(CallLocal = true)]

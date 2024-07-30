@@ -26,19 +26,21 @@ public partial class ShotgunTower : Node2D, ITower
 			var b = (Node2D)Bullet.Instantiate();
 			b.Name = Name + "ShotgunBullet bullet №" + BulletsCount.ToString();
 
-			World.AddChild(b);
-
 			if (_flag == 0)
 			{
-				b.Call("Start", Muzzle1.GlobalPosition, GetParent<CharacterBody2D>().Rotation);
+				b.Rotation = GetParent<CharacterBody2D>().Rotation;
+				b.Position = Muzzle1.GlobalPosition;
 				_flag = 1;
 			}
 			else
 			{
-				b.Call("Start", Muzzle2.GlobalPosition, GetParent<CharacterBody2D>().Rotation);
+				b.Rotation = GetParent<CharacterBody2D>().Rotation;
+				b.Position = Muzzle2.GlobalPosition;
 				_flag = 0;
 			}
 
+			World.AddChild(b);
+			
 			BulletsCount -= 1;
 			if (BulletsCount == 0)
 			{

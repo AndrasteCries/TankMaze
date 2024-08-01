@@ -13,7 +13,7 @@ public partial class PlayerItemList : ItemList
 			AddItem(item);
 		}
 	}
-
+	
 	public void UpdateList()
 	{
 		Clear();

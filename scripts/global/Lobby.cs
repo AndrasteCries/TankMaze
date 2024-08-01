@@ -2,9 +2,8 @@ using Godot;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text.Json;
-using Godot.Collections;
 using mazetank.scripts.player;
+using Color = Godot.Color;
 
 namespace mazetank.scripts.global;
 
@@ -33,6 +32,9 @@ public partial class Lobby : Node
 	public int GetPlayerCount() => Players.Count;
 
 	public List<Player> GetPlayersList() => Players;
+	
+	public Player GetPlayerById(long id) 
+		=>  Players.FirstOrDefault(player => player.Id == id);
 	
 	public Player GetPlayerByNickName(string playerNickname) 
 		=>  Players.FirstOrDefault(player => player.Nickname == playerNickname);

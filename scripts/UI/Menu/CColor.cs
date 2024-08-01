@@ -1,25 +1,15 @@
 using Godot;
 using System;
-using System.Linq;
-using global::mazetank.scripts.global;
 
-namespace mazetank.scripts.UI.Menu;
-
-public partial class CColor : MenuButton
+public partial class CColors : Node
 {
-	private PopupMenu _popUp;
-
-	public override void _EnterTree()
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
 	{
-		_popUp = GetPopup();
-		_popUp.IdPressed += PopUpOnIdPressed;
 	}
 
-	private void PopUpOnIdPressed(long id)
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
 	{
-		Global.Lobby.GetPlayersList().First().SetColor(id);
-		Text = _popUp.GetItemText((int)id);
 	}
 }
-
-

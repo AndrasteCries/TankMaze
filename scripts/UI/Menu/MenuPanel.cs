@@ -16,5 +16,6 @@ public partial class MenuPanel : Control
 	{
 		return IP.Text;
 	} 
+	
 	public string GetPort() => Port.Text;
 }

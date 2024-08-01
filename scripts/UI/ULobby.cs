@@ -1,4 +1,6 @@
+using global::mazetank.scripts.global;
 using Godot;
+using mazetank.scripts.player;
 
 public partial class ULobby : Node2D
 {
@@ -6,7 +8,7 @@ public partial class ULobby : Node2D
 	public static event AdminStartGame GameStart;
 
 	[Export] private Control _lobbyPanel;
-	[Export] private Control _editPlayerPanel;
+	[Export] private EditPlayerPanel _editPlayerPanel;
 	[Export] private PlayerItemList _playerList;
 	
 	public override void _EnterTree()
@@ -30,20 +32,37 @@ public partial class ULobby : Node2D
 	{
 		Rpc(nameof(UpdatePlayerList));
 	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	public void UpdatePlayerList() 
-	{
-		_playerList.UpdateList();
-	}
-	
-	public void EditPlayer()
-	{
-		
-	}
 	
 	public void PressedGameStart()
 	{
 		GameStart?.Invoke();
+	}
+	
+	public void EditPlayer()
+	{
+		_lobbyPanel.Hide();
+		_editPlayerPanel.Show();
+	}
+
+	public void SavePlayerInfo()
+	{
+		Rpc(nameof(UpdatePlayer), Multiplayer.MultiplayerPeer.GetUniqueId(), _editPlayerPanel.GetNewNickname(), _editPlayerPanel.GetColor());
+		_editPlayerPanel.Hide();
+		_lobbyPanel.Show();
+	}
+	
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	public void UpdatePlayer(long id, string nickname, Color color) 
+	{
+		Player player = Global.Lobby.GetPlayerById(id);
+		player.Nickname = nickname;
+		player.PlayerColor = color;
+		_playerList.UpdateList();
+	}
+	
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	public void UpdatePlayerList() 
+	{
+		_playerList.UpdateList();
 	}
 }

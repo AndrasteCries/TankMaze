@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/util/Game.cs" id="1_kexn6"]
 [ext_resource type="Script" path="res://scripts/maze/Maze.cs" id="2_0e787"]
 [ext_resource type="PackedScene" uid="uid://bfh3tubq6nxrj" path="res://scenes/Wall.tscn" id="3_gfyl4"]
-[ext_resource type="PackedScene" uid="uid://dgwmlabuoabns" path="res://scenes/UI.tscn" id="4_bo6yh"]
+[ext_resource type="PackedScene" uid="uid://cr0m074aq8e8s" path="res://scenes/UI/MainMenu.tscn" id="4_bo6yh"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("BuffSpawnTimer")]
 script = ExtResource("1_kexn6")

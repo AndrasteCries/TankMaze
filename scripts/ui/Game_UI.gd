@@ -10,7 +10,6 @@ func _ready():
 func _process(_delta):
 	pass
 
-
 func _on_game_score_refresh():
 	$Score/PlayersScore.clear()
 	for player in Lobby.players.values():

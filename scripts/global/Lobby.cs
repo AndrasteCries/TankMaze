@@ -1,6 +1,9 @@
 using Godot;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Text.Json;
+using Godot.Collections;
 using mazetank.scripts.player;
 
 namespace mazetank.scripts.global;
@@ -11,8 +14,6 @@ public partial class Lobby : Node
 	
 	public override void _Ready()
 	{
-		Player player = new Player();
-		AddPlayer(player);
 	}
 
 	public void AddPlayer(Player player)
@@ -20,7 +21,7 @@ public partial class Lobby : Node
 		Players.Add(player);
 	}
 
-	public void DeletePlayer(ulong id)
+	public void DeletePlayer(long id)
 	{
 		var player = Players.FirstOrDefault(p => p.Id == id);
 		if (player != null)
@@ -31,15 +32,27 @@ public partial class Lobby : Node
 
 	public int GetPlayerCount() => Players.Count;
 
-	public List<Player> GetPlayers() => Players;
+	public List<Player> GetPlayersList() => Players;
 	
-	public Player GetPlayerByNickName(string playerNickname)
+	public Player GetPlayerByNickName(string playerNickname) 
+		=>  Players.FirstOrDefault(player => player.Nickname == playerNickname);
+	
+	public Player RemovePlayerById(long id)
+	{
+		var playerToRemove = Players.FirstOrDefault(player => player.Id == id);
+		if (playerToRemove != null)
+		{
+			Players.Remove(playerToRemove);
+		}
+		return playerToRemove;
+	}
+	
+	public void ShowPlayers()
 	{
 		foreach (var player in Players)
 		{
-			if (player.Nickname == playerNickname) return player;
+			if(Multiplayer.IsServer()) GD.Print("HOST");
+			GD.Print(player.Id + " " + player.Nickname);
 		}
-		return null;
 	}
-	
 }

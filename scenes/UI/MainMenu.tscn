@@ -1,0 +1,378 @@
+[gd_scene load_steps=7 format=3 uid="uid://cr0m074aq8e8s"]
+
+[ext_resource type="Script" path="res://scripts/UI/Menu/MainMenu.cs" id="1_qjxnl"]
+[ext_resource type="Script" path="res://scripts/UI/Menu/CColor.cs" id="1_uwtwr"]
+[ext_resource type="Script" path="res://scripts/UI/Menu/MenuPlayerNickname.cs" id="2_oiho3"]
+[ext_resource type="Script" path="res://scripts/UI/Menu/MenuPlayerColor.cs" id="3_1hy84"]
+
+[sub_resource type="Curve" id="Curve_23mrl"]
+_data = [Vector2(0.558824, 0.173469), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_yhies"]
+curve = SubResource("Curve_23mrl")
+
+[node name="UI" type="Control" node_paths=PackedStringArray("_playerEditPanel", "_lobbyPanel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qjxnl")
+_playerEditPanel = NodePath("EditPlayer")
+_lobbyPanel = NodePath("Lobby")
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CurveTexture_yhies")
+
+[node name="Panel" type="Panel" parent="Menu"]
+custom_minimum_size = Vector2(464.055, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -232.0
+offset_top = -150.0
+offset_right = 232.055
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LIp" type="Label" parent="Menu/Panel"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 18.0
+offset_right = 96.0
+offset_bottom = 41.0
+text = "IP
+"
+
+[node name="IP" type="TextEdit" parent="Menu/Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 42.0
+offset_right = 408.0
+offset_bottom = 80.0
+text = "localhost"
+
+[node name="LPort" type="Label" parent="Menu/Panel"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 106.0
+offset_right = 96.0
+offset_bottom = 129.0
+text = "Port"
+
+[node name="Port" type="TextEdit" parent="Menu/Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 129.0
+offset_right = 408.0
+offset_bottom = 167.0
+
+[node name="Connect" type="Button" parent="Menu/Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 184.0
+offset_right = 408.0
+offset_bottom = 226.0
+text = "Connect"
+
+[node name="Host" type="Button" parent="Menu/Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 234.0
+offset_right = 408.0
+offset_bottom = 276.0
+text = "Host
+"
+
+[node name="Lobby" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CurveTexture_yhies")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer"]
+layout_mode = 2
+
+[node name="EditPlayer" type="Panel" parent="Lobby/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 140)
+layout_mode = 2
+
+[node name="PlayerSettings" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HSeparator" type="HSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="LNickname" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+layout_mode = 2
+text = "Nickname
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Nickname" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_oiho3")
+
+[node name="VSeparator3" type="VSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="HSeparator2" type="HSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="LColor" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(79, 0)
+layout_mode = 2
+text = "Color
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Color" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "White
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_1hy84")
+
+[node name="VSeparator3" type="VSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="HSeparator3" type="HSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(170, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Edit player
+"
+
+[node name="HSeparator4" type="HSeparator" parent="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="EditPlayer" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="EditPlayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CurveTexture_yhies")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditPlayer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -80.0
+offset_right = 150.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EditPlayer" type="Panel" parent="EditPlayer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 160)
+layout_mode = 2
+
+[node name="PlayerSettings" type="VBoxContainer" parent="EditPlayer/VBoxContainer/EditPlayer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HSeparator" type="HSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="LNickname" type="Label" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+layout_mode = 2
+text = "Nickname
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="INickname" type="LineEdit" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player"
+placeholder_text = "Nickname"
+max_length = 25
+
+[node name="VSeparator3" type="VSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="HSeparator2" type="HSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 33.19)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="LColor" type="Label" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+layout_mode = 2
+text = "Color      	   "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="CColor" type="MenuButton" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "White"
+alignment = 0
+item_count = 5
+popup/item_0/text = "White"
+popup/item_0/id = 1
+popup/item_1/text = "Green"
+popup/item_1/id = 1
+popup/item_2/text = "Red"
+popup/item_2/id = 2
+popup/item_3/text = "Purple"
+popup/item_3/id = 3
+popup/item_4/text = "Blue"
+popup/item_4/id = 4
+script = ExtResource("1_uwtwr")
+
+[node name="VSeparator3" type="VSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="HSeparator3" type="HSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(170, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Save data
+"
+
+[node name="HSeparator4" type="HSeparator" parent="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[connection signal="pressed" from="Menu/Panel/Connect" to="." method="ConnectButtonPressed"]
+[connection signal="pressed" from="Menu/Panel/Host" to="." method="HostButtonPressed"]
+[connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/EditPlayer/PlayerSettings/Button" to="." method="EditPlayerPressed"]
+[connection signal="pressed" from="EditPlayer/VBoxContainer/EditPlayer/PlayerSettings/Button" to="." method="SavePlayerDataPressed"]

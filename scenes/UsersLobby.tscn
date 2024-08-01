@@ -1,0 +1,363 @@
+[gd_scene load_steps=10 format=3 uid="uid://dqaear4uegbiy"]
+
+[ext_resource type="Script" path="res://scripts/UI/ULobby.cs" id="1_isp6x"]
+[ext_resource type="Script" path="res://scripts/UI/Menu/MenuPlayerNickname.cs" id="2_q3txv"]
+[ext_resource type="Script" path="res://scripts/UI/Menu/MenuPlayerColor.cs" id="3_aqx00"]
+[ext_resource type="Script" path="res://scripts/PlayerItemList.cs" id="4_8d6xj"]
+[ext_resource type="Script" path="res://scripts/UI/Menu/CColor.cs" id="4_yk5e6"]
+
+[sub_resource type="Curve" id="Curve_7ooju"]
+_data = [Vector2(0.558824, 0.173469), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_80wne"]
+curve = SubResource("Curve_7ooju")
+
+[sub_resource type="Curve" id="Curve_wfo72"]
+_data = [Vector2(0.558824, 0.173469), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_e5cmm"]
+curve = SubResource("Curve_wfo72")
+
+[node name="UsersLobby" type="Node2D" node_paths=PackedStringArray("_lobbyPanel", "_editPlayerPanel", "_playerList")]
+script = ExtResource("1_isp6x")
+_lobbyPanel = NodePath("ULobby")
+_editPlayerPanel = NodePath("EditPlayer")
+_playerList = NodePath("ULobby/Players/ItemList")
+
+[node name="ULobby" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Panel" type="Panel" parent="ULobby"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="ULobby"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CurveTexture_80wne")
+
+[node name="EditPlayer" type="Panel" parent="ULobby"]
+custom_minimum_size = Vector2(300, 140)
+layout_mode = 2
+offset_left = 80.0
+offset_top = 80.0
+offset_right = 380.0
+offset_bottom = 220.0
+
+[node name="PlayerSettings" type="VBoxContainer" parent="ULobby/EditPlayer"]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 141.0
+
+[node name="HSeparator" type="HSeparator" parent="ULobby/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ULobby/EditPlayer/PlayerSettings"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="LNickname" type="Label" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer"]
+layout_mode = 2
+text = "Nickname
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Nickname" type="Label" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_q3txv")
+
+[node name="VSeparator3" type="VSeparator" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="HSeparator2" type="HSeparator" parent="ULobby/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ULobby/EditPlayer/PlayerSettings"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="LColor" type="Label" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(79, 0)
+layout_mode = 2
+text = "Color
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Color" type="Label" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "White
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_aqx00")
+
+[node name="VSeparator3" type="VSeparator" parent="ULobby/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="HSeparator3" type="HSeparator" parent="ULobby/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="EditPlayerButton" type="Button" parent="ULobby/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(170, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Edit player
+"
+
+[node name="HSeparator4" type="HSeparator" parent="ULobby/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="Players" type="Panel" parent="ULobby"]
+custom_minimum_size = Vector2(300, 140)
+layout_mode = 2
+offset_left = 80.0
+offset_top = 224.0
+offset_right = 380.0
+offset_bottom = 560.0
+
+[node name="PlayerLobby" type="VBoxContainer" parent="ULobby/Players"]
+layout_mode = 0
+offset_top = 7.0
+offset_right = 300.0
+offset_bottom = 58.0
+
+[node name="HSeparator2" type="HSeparator" parent="ULobby/Players/PlayerLobby"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ULobby/Players/PlayerLobby"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="ULobby/Players/PlayerLobby/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PNickname" type="Label" parent="ULobby/Players/PlayerLobby/HBoxContainer2"]
+custom_minimum_size = Vector2(79, 0)
+layout_mode = 2
+text = "Nickname"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="ULobby/Players/PlayerLobby/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Color" type="Label" parent="ULobby/Players/PlayerLobby/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_aqx00")
+
+[node name="VSeparator3" type="VSeparator" parent="ULobby/Players/PlayerLobby/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="HSeparator3" type="HSeparator" parent="ULobby/Players/PlayerLobby"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="ULobby/Players"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 296.0
+offset_bottom = 328.0
+script = ExtResource("4_8d6xj")
+
+[node name="EditPlayerButton2" type="Button" parent="ULobby"]
+custom_minimum_size = Vector2(170, 30)
+layout_mode = 0
+offset_left = 392.0
+offset_top = 512.0
+offset_right = 1056.0
+offset_bottom = 560.0
+size_flags_horizontal = 4
+text = "Start game"
+
+[node name="EditPlayer" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="EditPlayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CurveTexture_e5cmm")
+
+[node name="EditPlayer" type="Panel" parent="EditPlayer"]
+custom_minimum_size = Vector2(300, 160)
+layout_mode = 2
+offset_left = 424.0
+offset_top = 240.0
+offset_right = 724.0
+offset_bottom = 400.0
+
+[node name="PlayerSettings" type="VBoxContainer" parent="EditPlayer/EditPlayer"]
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 159.0
+
+[node name="HSeparator" type="HSeparator" parent="EditPlayer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditPlayer/EditPlayer/PlayerSettings"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="LNickname" type="Label" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer"]
+layout_mode = 2
+text = "Nickname
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="INickname" type="LineEdit" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player"
+placeholder_text = "Nickname"
+max_length = 25
+
+[node name="VSeparator3" type="VSeparator" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="HSeparator2" type="HSeparator" parent="EditPlayer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="EditPlayer/EditPlayer/PlayerSettings"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 33.19)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="LColor" type="Label" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer2"]
+layout_mode = 2
+text = "Color      	   "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="CColor" type="MenuButton" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "White"
+alignment = 0
+item_count = 5
+popup/item_0/text = "White"
+popup/item_0/id = 1
+popup/item_1/text = "Green"
+popup/item_1/id = 1
+popup/item_2/text = "Red"
+popup/item_2/id = 2
+popup/item_3/text = "Purple"
+popup/item_3/id = 3
+popup/item_4/text = "Blue"
+popup/item_4/id = 4
+script = ExtResource("4_yk5e6")
+
+[node name="VSeparator3" type="VSeparator" parent="EditPlayer/EditPlayer/PlayerSettings/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="HSeparator3" type="HSeparator" parent="EditPlayer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="EditPlayer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(170, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Save data
+"
+
+[node name="HSeparator4" type="HSeparator" parent="EditPlayer/EditPlayer/PlayerSettings"]
+custom_minimum_size = Vector2(300, 10)
+layout_mode = 2
+
+[connection signal="pressed" from="ULobby/EditPlayer/PlayerSettings/EditPlayerButton" to="." method="EditPlayer"]
+[connection signal="pressed" from="ULobby/EditPlayerButton2" to="." method="PressedGameStart"]

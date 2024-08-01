@@ -51,7 +51,7 @@ namespace mazetank.scripts.util
 
 		private void SpawnPlayers()
 		{
-			var players = Global.Lobby.GetPlayers();
+			var players = Global.Lobby.GetPlayersList();
 			foreach (Player player in players)
 			{
 				_maze.AddTank(player.Nickname);
@@ -99,6 +99,7 @@ namespace mazetank.scripts.util
 		// {
 		//     GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
 		// }
+		
 		public override void _EnterTree()
 		{
 			Tank.PlayerWasKilled += _playerWasKilled;

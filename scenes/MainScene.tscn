@@ -1,0 +1,128 @@
+[gd_scene load_steps=8 format=3 uid="uid://b2mhjn6e0vl46"]
+
+[ext_resource type="Script" path="res://scripts/MainScene.cs" id="1_4jbwt"]
+[ext_resource type="Script" path="res://scripts/UI/Menu/MainMenu.cs" id="2_0m5di"]
+[ext_resource type="PackedScene" uid="uid://yj5rtrys678w" path="res://scenes/Game.tscn" id="2_xivhv"]
+[ext_resource type="Script" path="res://scripts/UI/Menu/MenuPanel.cs" id="3_0cyv7"]
+[ext_resource type="PackedScene" uid="uid://dqaear4uegbiy" path="res://scenes/UsersLobby.tscn" id="3_v8s7e"]
+
+[sub_resource type="Curve" id="Curve_bqdmh"]
+_data = [Vector2(0.558824, 0.173469), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_mh8cd"]
+curve = SubResource("Curve_bqdmh")
+
+[node name="MainScene" type="Node" node_paths=PackedStringArray("_userInterface", "_level")]
+script = ExtResource("1_4jbwt")
+_userInterface = NodePath("UserInterfase")
+_level = NodePath("Level")
+_gameScene = ExtResource("2_xivhv")
+_lobbyScene = ExtResource("3_v8s7e")
+
+[node name="Level" type="Node" parent="."]
+
+[node name="GameSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/Game.tscn")
+spawn_path = NodePath("../Level")
+spawn_limit = 1
+
+[node name="UserInterfase" type="Control" parent="." node_paths=PackedStringArray("Menu")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("2_0m5di")
+Menu = NodePath("Menu")
+
+[node name="Menu" type="Control" parent="UserInterfase" node_paths=PackedStringArray("IP", "Port")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_0cyv7")
+IP = NodePath("Panel/IP")
+Port = NodePath("Panel/Port")
+
+[node name="TextureRect" type="TextureRect" parent="UserInterfase/Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CurveTexture_mh8cd")
+
+[node name="Panel" type="Panel" parent="UserInterfase/Menu"]
+custom_minimum_size = Vector2(464.055, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -232.0
+offset_top = -150.0
+offset_right = 232.055
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LIp" type="Label" parent="UserInterfase/Menu/Panel"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 18.0
+offset_right = 96.0
+offset_bottom = 41.0
+text = "IP
+"
+
+[node name="IP" type="TextEdit" parent="UserInterfase/Menu/Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 42.0
+offset_right = 408.0
+offset_bottom = 80.0
+text = "127.0.0.1"
+
+[node name="LPort" type="Label" parent="UserInterfase/Menu/Panel"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 106.0
+offset_right = 96.0
+offset_bottom = 129.0
+text = "Port"
+
+[node name="Port" type="TextEdit" parent="UserInterfase/Menu/Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 129.0
+offset_right = 408.0
+offset_bottom = 167.0
+text = "7000"
+
+[node name="Host" type="Button" parent="UserInterfase/Menu/Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 234.0
+offset_right = 408.0
+offset_bottom = 276.0
+text = "Host
+"
+
+[node name="Connect" type="Button" parent="UserInterfase/Menu/Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 184.0
+offset_right = 408.0
+offset_bottom = 226.0
+text = "Connect"
+
+[connection signal="pressed" from="UserInterfase/Menu/Panel/Host" to="." method="OnHostPressed"]
+[connection signal="pressed" from="UserInterfase/Menu/Panel/Connect" to="." method="OnConnectPressed"]

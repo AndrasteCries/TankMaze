@@ -17,7 +17,7 @@ public partial class DefaultTower : Node2D, ITower
 	public override void _Ready()
 	{
 		_playerNickname = GetParent().Name;
-		World = GetNode("/root/Game");
+		World = GetNode("/root/");
 		Muzzle1 = GetNode<Marker2D>("Sprite2D/Muzzle");
 	}
 

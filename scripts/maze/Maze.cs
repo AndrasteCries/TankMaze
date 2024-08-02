@@ -1,7 +1,5 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using global::mazetank.scripts.global;
 using mazetank.scripts.maze.buff;
 using mazetank.scripts.player;
@@ -181,11 +179,11 @@ public partial class Maze : Node2D
 		RemoveExtraColumn();
 	}
 
-	public void AddTank(string nickname)
+	public void AddTank(long id, string nickname, Color color)
 	{
-		var tank = GetRandomCell()?.SpawnNewPlayer(_rng, nickname);
+		var tank = GetRandomCell()?.SpawnNewPlayer(_rng, id, nickname, color);
 		if (tank != null) _tanks.Add(tank);
-		else AddTank(nickname);
+		else AddTank(id, nickname, color);
 	}
 	
 	public Tank FindTankByNickname(string nickname)

@@ -1,21 +1,28 @@
-[gd_scene load_steps=5 format=3 uid="uid://yj5rtrys678w"]
+[gd_scene load_steps=4 format=3 uid="uid://yj5rtrys678w"]
 
 [ext_resource type="Script" path="res://scripts/util/Game.cs" id="1_kexn6"]
 [ext_resource type="Script" path="res://scripts/maze/Maze.cs" id="2_0e787"]
 [ext_resource type="PackedScene" uid="uid://bfh3tubq6nxrj" path="res://scenes/Wall.tscn" id="3_gfyl4"]
-[ext_resource type="PackedScene" uid="uid://cr0m074aq8e8s" path="res://scenes/UI/MainMenu.tscn" id="4_bo6yh"]
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("BuffSpawnTimer")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("BuffSpawnTimer", "_playerScore")]
 script = ExtResource("1_kexn6")
 BuffSpawnTimer = NodePath("BuffSpawnTimer")
+_respawnTime = 1.0
+_playerScore = NodePath("Control/ItemList")
 
 [node name="Maze" type="Node2D" parent="."]
 script = ExtResource("2_0e787")
 CellScene = ExtResource("3_gfyl4")
 
-[node name="UI" parent="." instance=ExtResource("4_bo6yh")]
-visible = false
-
 [node name="BuffSpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
+
+[node name="Control" type="CanvasLayer" parent="."]
+
+[node name="ItemList" type="ItemList" parent="Control"]
+offset_left = 38.0
+offset_top = 28.0
+offset_right = 238.0
+offset_bottom = 128.0
+size_flags_horizontal = 4

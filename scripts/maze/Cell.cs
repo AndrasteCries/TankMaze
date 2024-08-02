@@ -71,7 +71,7 @@ public partial class Cell : StaticBody2D
 	
 	public Vector2 GetSpawnpointPosition() => _spawnPoint.GlobalPosition;
 
-	public Tank SpawnNewPlayer(RandomNumberGenerator rng, string nickname)
+	public Tank SpawnNewPlayer(RandomNumberGenerator rng, long id, string nickname, Color color)
 	{
 		if (!HadBuff)
 		{
@@ -79,6 +79,8 @@ public partial class Cell : StaticBody2D
 			tank.GlobalPosition = GetSpawnpointPosition();
 			tank.Rotation = rng.RandfRange(0, 2 * Mathf.Pi);
 			tank.Name = nickname;
+			tank.Modulate = color;
+			tank.SetMultiplayerAuthority((int)id);
 			GetParent().AddChild(tank);
 			return tank;
 		}

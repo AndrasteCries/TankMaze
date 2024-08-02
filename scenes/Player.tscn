@@ -1,12 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://b42m1l1nqj3ca"]
+[gd_scene load_steps=9 format=3 uid="uid://b42m1l1nqj3ca"]
 
 [ext_resource type="Script" path="res://scripts/player/Tank.cs" id="1_emoir"]
 [ext_resource type="PackedScene" uid="uid://c14sf8otq17mw" path="res://scenes/towers/ShotgunTower.tscn" id="3_hjx5r"]
+[ext_resource type="Script" path="res://scripts/player/PlayerInputMultiplayer.cs" id="4_bwpy5"]
 [ext_resource type="Texture2D" uid="uid://cd6jg28gep56w" path="res://assets/player/tank.png" id="4_vwrjs"]
 [ext_resource type="PackedScene" uid="uid://cor150l5vu4sq" path="res://scenes/towers/Tower.tscn" id="9_f06ui"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_grpgv"]
-size = Vector2(84, 85)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mjjt0"]
 properties/0/path = NodePath(".:position")
@@ -16,13 +14,30 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_exyby"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_grpgv"]
+size = Vector2(84, 85)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_camera2D", "_playerInput")]
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
 platform_wall_layers = 1
 script = ExtResource("1_emoir")
+_camera2D = NodePath("Camera2D")
+_playerInput = NodePath("PlayerInput")
 _defaultTower = ExtResource("9_f06ui")
 _shotgunTower = ExtResource("3_hjx5r")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_mjjt0")
+
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../MultiplayerSynchronizer")
+replication_config = SubResource("SceneReplicationConfig_exyby")
+script = ExtResource("4_bwpy5")
+
+[node name="Node" type="Node" parent="."]
 
 [node name="Tank" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
@@ -35,9 +50,6 @@ shape = SubResource("RectangleShape2D_grpgv")
 [node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(0, -58)
 rotation = 3.14159
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_mjjt0")
 
 [node name="TankArea" type="Area2D" parent="."]
 collision_mask = 3

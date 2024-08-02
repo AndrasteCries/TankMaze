@@ -1,19 +1,21 @@
 using Godot;
-using System;
 using mazetank.scripts.maze.buff;
 using mazetank.scripts.player.bullets;
 using mazetank.scripts.player.towers;
-using mazetank.scripts.util;
 
 namespace mazetank.scripts.player;
+
 public partial class Tank : CharacterBody2D
 {
 	public delegate void PlayerWasKilledEventHandler(string killerNickname, string victimNickname);
 	public static event PlayerWasKilledEventHandler PlayerWasKilled;
 
+	[Export] private Camera2D _camera2D;
 	[Export] private int _speed = 300;
 	[Export] private int _rotationSpeed = 5;
-
+	[Export] private PlayerInputMultiplayer _playerInput;
+	
+	//todo resource
 	[Export] private PackedScene _defaultTower;
 	[Export] private PackedScene _bigShotTower;
 	[Export] private PackedScene _laserTower;
@@ -22,65 +24,71 @@ public partial class Tank : CharacterBody2D
 	[Export] private PackedScene _shotgunTower;
 	
 	private bool _alive = true;
+	
 	public string TowerType { get; set; } = "Default";
+
+	public override void _EnterTree()
+	{
+		if (Multiplayer.GetUniqueId() == GetMultiplayerAuthority())
+		{
+			_camera2D.MakeCurrent();
+		}
+		else
+		{
+			_camera2D.Enabled = false;
+		}
+		
+		_playerInput.SetMultiplayerAuthority(Multiplayer.MultiplayerPeer.GetUniqueId());
+	}
 
 	public override void _Ready()
 	{ 
+		
 		var tower = _defaultTower.Instantiate();
 		tower.Name = "Tower";
 		AddChild(tower);
-		// GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").SetMultiplayerAuthority(int.Parse(Name));
-		// int colorId = (int)Lobby.Players[int.Parse(Name)]["Color"];
-		// Modulate = Lobby.Colors[colorId];
 	}
-
-	private void GetInput(float delta)
-	{
-		int turn = 0;
-		if (Input.IsActionPressed("D"))
-		{
-			turn += 1;
-		}
-		if (Input.IsActionPressed("A"))
-		{
-			turn -= 1;
-		}
-		Rotation += _rotationSpeed * turn * delta;
-
-		Velocity = Vector2.Zero;
-		if (Input.IsActionPressed("W"))
-		{
-			Velocity = new Vector2(0, -_speed).Rotated(Rotation);
-		}
-		if (Input.IsActionPressed("S"))
-		{
-			Velocity = new Vector2(0, _speed).Rotated(Rotation);
-		}
-
-		if (Input.IsActionJustReleased("LMB"))
-		{
-			GetNode<ITower>("Tower").Shoot();
-			//GetNode("Tower").Call("shoot_rpc");
-		}
-	}
-
+	
 	public override void _PhysicsProcess(double delta)
 	{
-		if (GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").GetMultiplayerAuthority() == Multiplayer.GetUniqueId() && _alive)
+		if (Multiplayer.GetUniqueId() == GetMultiplayerAuthority())
 		{
-			MoveAndSlide();
-			GetInput((float)delta);
-		}
-		
-	}	
+			Rotation += _rotationSpeed * _playerInput.Turn * (float)delta;
 
-	//[Rpc(CallLocal = true)]
+			Velocity = Vector2.Zero;
+		
+			if (_playerInput.Direction == 1)
+			{
+				Velocity = new Vector2(0, -_speed).Rotated(Rotation);
+			}
+			if (_playerInput.Direction == -1)
+			{
+				Velocity = new Vector2(0, _speed).Rotated(Rotation);
+			}
+
+			if (_playerInput.Shoot)
+			{
+				var tower = GetNode<ITower>("Tower");
+				Rpc(nameof(ShootRpc));
+				_playerInput.Shoot = false;
+			}
+			
+			MoveAndSlide();
+		}
+	} 
+		
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	public void ShootRpc()
+	{
+		var tower = GetNode<ITower>("Tower");
+		tower.Shoot();
+	}
+	
 	public void ChangeTower()
 	{
 		Node newTower = null;
 		GetNode("Tower").QueueFree();
 		RemoveChild(GetNode("Tower"));
-		GD.Print(TowerType);
 		switch (TowerType)
 		{
 			case "Default":
@@ -109,6 +117,7 @@ public partial class Tank : CharacterBody2D
 		AddChild(newTower);
 		newTower.Name = "Tower";
 	}
+
 	private void _on_tank_area_area_entered(Area2D area)
 	{
 		var areaParent = area.GetParent();
@@ -117,13 +126,15 @@ public partial class Tank : CharacterBody2D
 			TowerType = buff.BuffName;
 			ChangeTower();
 			buff.QueueFree();
-		} else if (areaParent is Bullet bullet)
+		}
+		else if (areaParent is Bullet bullet)
 		{
 			PlayerWasKilled?.Invoke(bullet.GetNickname(), Name);
+			areaParent.QueueFree();
 			SetState(false);
 		}
 	}
-	
+
 	private void OnRespawnTimeout()
 	{
 		ChangeTower();

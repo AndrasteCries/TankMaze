@@ -10,6 +10,7 @@ namespace mazetank.scripts.util
 	{
 		[Export] public Timer BuffSpawnTimer { get; set; }
 		[Export] private double _respawnTime;
+		[Export] private ItemList _playerScore;
 
 		private Maze _maze;
 		private RandomNumberGenerator _rng = new RandomNumberGenerator();
@@ -21,19 +22,16 @@ namespace mazetank.scripts.util
 			_maze = GetNode<Maze>("Maze");
 			SpawnMaze();
 			SpawnPlayers();
+			UpdateList();
 			//BuffSpawnTimer.Timeout += _SpawnBuff;
 			// multiplayer.server_disconnected += _ServerDisconnected;
-			
 		}
-		
-		public override void _Process(double delta)
-		{
-		}
-		
+
 		private void _playerWasKilled(string killerNickname, string victimNickname)
 		{
 			Player killer = Global.Lobby.GetPlayerByNickName(killerNickname);
-			killer?.ChangeScore(killerNickname);
+			killer?.ChangeScore(victimNickname);
+			UpdateList();
 			GetTree().CreateTimer(_respawnTime).Timeout += () => RespawnPlayer(victimNickname);
 		}
 
@@ -54,7 +52,7 @@ namespace mazetank.scripts.util
 			var players = Global.Lobby.GetPlayersList();
 			foreach (Player player in players)
 			{
-				_maze.AddTank(player.Nickname);
+				_maze.AddTank(player.Id, player.Nickname, player.PlayerColor);
 			}
 		}
 		
@@ -72,33 +70,16 @@ namespace mazetank.scripts.util
 				_maze.AddBuff();
 			}
 		}
-		
-		// private void _RespawnPlayer(int peerId, string killer)
-		// {
-		//     RespawnPlayer(peerId, killer);
-		// }
 
-		// [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-		// private void RespawnPlayerRpc(int peerId, string killer)
-		// {
-		//     var player = GetNode<Node2D>(peerId.ToString());
-		//     var randomXY = RandomCell();
-		//     if (peerId == int.Parse(killer.Split(" ")[0]))
-		//     {
-		//         Lobby.players[int.Parse(killer.Split(" ")[0])]["Score"] -= 1;
-		//     }
-		//     else
-		//     {
-		//         Lobby.players[int.Parse(killer.Split(" ")[0])]["Score"] += 1;
-		//     }
-		//     player.GlobalPosition = _maze[randomXY.x][randomXY.y].GetSpawnPointPosition();
-		//     player.Show();
-		//     EmitSignal(nameof(ScoreRefresh));
-		// }
-		// private void _ServerDisconnected()
-		// {
-		//     GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
-		// }
+		private void UpdateList()
+		{
+			_playerScore.Clear();
+
+			foreach (var player in Global.Lobby.GetPlayersList())
+			{
+				_playerScore.AddItem(player.Nickname + ": " + player.Score);
+			}
+		}
 		
 		public override void _EnterTree()
 		{
